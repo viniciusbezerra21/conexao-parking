@@ -3,11 +3,11 @@ import { LoginForm } from "../../components/login-form/login-form";
 import { Botao } from "../../shared/botao-login/botao-login";
 
 @Component({
-  selector: 'app-pagina-login',
+  selector: 'app-cadastro-form',
   imports: [LoginForm, Botao],
-  templateUrl: './pagina-login.html',
-  styleUrl: './pagina-login.css',
+  templateUrl: './cadastro-form.html',
+  styleUrl: './cadastro-form.css',
 })
-export class PaginaLogin {
+export class CadastroForm {
 
 }

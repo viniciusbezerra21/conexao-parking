@@ -1,15 +1,5 @@
 <div class="flex flex-col gap-5 bg-[#FAFAFA]/70 w-<> p-10 rounded-xl min-w-150">
     <div class="bg-[url('/logo-login.png')] bg-contain bg-no-repeat bg-center w-130 aspect-7/3 "></div>
     
-    <div class="flex flex-col gap-2">
-        <label for="email">E-mail corporativo:</label>
-        <input type="email" id="email" class="w-full p-4 h-12 bg-amber-50 rounded outline-none">
-    </div>
-
-    <div class="flex flex-col gap-2">
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" class="w-full p-4 h-12 bg-amber-50 rounded outline-none">
-    </div>
-
-    <app-botao>ENTRAR</app-botao>
+    <ng-content></ng-content>
 </div>
