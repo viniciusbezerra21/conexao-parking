@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Header } from "../../components/header/header";
-import { Aside } from "../../components/aside/aside";
+import { SearchBar } from "../../shared/search-bar/search-bar";
+import { Tabela } from "../../shared/tabela/tabela";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Header, Aside],
+  imports: [SearchBar, Tabela],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

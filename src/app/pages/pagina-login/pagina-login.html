@@ -10,11 +10,11 @@
             <div class="flex flex-col gap-2">
                 <label for="senha">Senha:</label>
                 <input type="password" id="senha" class="w-full p-4 h-12 bg-amber-50 rounded outline-none">
+                <span><a class="text-blue-500 hover:underline hover:text-red-900 duration-150  cursor-pointer" (click)="irParaCadastro()">Não possuo cadastro.</a></span>
             </div>
 
-            <span><a class="text-blue-500 hover:underline hover:text-red-900 duration-150  cursor-pointer">Não possuo cadastro.</a></span>
 
-            <app-botao-login>Entrar</app-botao-login>
+            <app-botao-login (click)="entrar()">Entrar</app-botao-login>
         </ng-content>
     </app-login-form>
 </main>
