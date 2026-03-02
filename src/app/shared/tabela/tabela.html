@@ -1,80 +1,32 @@
 <div class="flex flex-col mt-5 max-w-4xl">
     <table class="table-auto">
         <thead class="bg-[#CC2A2A] text-white">
-            <tr class="">
+            <tr>
                 <th class="font-medium px-8 py-3.5">Proprietário</th>
-                <th class="font-medium px-8 py-3.5">Tipo veiculo</th>
+                <th class="font-medium px-8 py-3.5">Tipo veículo</th>
                 <th class="font-medium px-8 py-3.5">CPF</th>
-                <th class="font-medium px-8 py-3.5">Numero placa</th>
+                <th class="font-medium px-8 py-3.5">Número placa</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
-            <tr >
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-                <td class="px-8 py-3.5 text-center">cu</td>
-            </tr>
+            <ng-content></ng-content>
         </tbody>
     </table>
+
+    <div class="flex justify-between items-center mt-4">
+        <button class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50" (click)="paginaAnterior()"
+            [disabled]="paginaAtual === 0">
+            Anterior
+        </button>
+
+        <span class="text-sm">
+            Página {{ paginaAtual + 1 }} de {{ totalPaginas }}
+        </span>
+
+        <button class="px-4 py-2 bg-gray-200 rounded disabled:opacity-50" (click)="proximaPagina()"
+            [disabled]="paginaAtual + 1 >= totalPaginas">
+            Próxima
+        </button>
+    </div>
 </div>

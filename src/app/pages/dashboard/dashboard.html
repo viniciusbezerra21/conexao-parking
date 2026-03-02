@@ -1,4 +1,13 @@
 <div class="mt-10 ml-10">
     <app-search-bar></app-search-bar>
-    <app-tabela></app-tabela>
+    <app-tabela>
+        @for (veiculo of veiculos; track veiculo.proprietario.idProprietario) {
+            <tr class="text-center bg-[#b1b1b1] ">
+                <td class="font-medium px-8 py-3.5 border-b border-r border-gray-600">{{ veiculo.proprietario.nome }}</td>
+                <td class="font-medium px-8 py-3.5 border-b border-r border-gray-600">{{ veiculo.tipoVeiculo }}</td>
+                <td class="font-medium px-8 py-3.5 border-b border-r border-gray-600">{{ veiculo.proprietario.cpfProprietario }}</td>
+                <td class="font-medium px-8 py-3.5 border-b border-l border-gray-600">{{ veiculo.numeroPlaca }}</td>
+            </tr>
+        }
+    </app-tabela>
 </div>
