@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VeiculoService } from '../../services/services/veiculo.service';
-import { StatusVeiculo, TipoVeiculo, Proprietario } from '../../models/veiculo';
-import { CadastroForm } from "../cadastro-form/cadastro-form";
+import { StatusVeiculo, TipoVeiculo } from '../../models/veiculo';
 
 @Component({
   selector: 'app-cadastrar-veiculo',
-  imports: [ReactiveFormsModule, CadastroForm],
+  imports: [ReactiveFormsModule],
   templateUrl: './cadastrar-veiculo.html',
   styleUrl: './cadastrar-veiculo.css',
 })
@@ -19,9 +18,9 @@ export class CadastrarVeiculo {
     cor: ['', [Validators.required]],
     visitante: [false],
     bloqueado: [false],
-    TipoVeiculo: [TipoVeiculo , [Validators.required]],
+    tipoVeiculo: [TipoVeiculo , [Validators.required]],
     statusVeiculo: [StatusVeiculo, [Validators.required]],
-    Proprietario: this.fb.group({
+    proprietario: this.fb.group({
       nome: ['', [Validators.required]],
       cpfProprietario: ['', [Validators.required]]
     })

@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class VeiculoService {
   private API_URL = 'http://localhost:8080/veiculo';
 
-  private token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgQ29uZXhhbyBQYXJraW5nIiwic3ViIjoidmluaUBhZG0uY29tIiwiaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzcyNjAyNzg1fQ.olRo1xTDMH2dahSlJ6JaxbajnBoRsVwmYnMQJhBjxmo";
+  private token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgQ29uZXhhbyBQYXJraW5nIiwic3ViIjoidmluaUBhZG0uY29tIiwiaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzcyNjMwMzU3fQ.RQnCAIwr9MPVOFMxYiyTgdK3nYgZFLS2PLOS8pvrCMg";
 
   private headers = new HttpHeaders({
     'Authorization': `Bearer ${this.token}`
