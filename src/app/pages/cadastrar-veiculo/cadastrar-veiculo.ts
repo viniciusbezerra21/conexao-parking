@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { StatusVeiculo, TipoVeiculo, Proprietario } from '../../models/veiculo';
+import { CadastroForm } from "../cadastro-form/cadastro-form";
 
 @Component({
   selector: 'app-cadastrar-veiculo',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CadastroForm],
   templateUrl: './cadastrar-veiculo.html',
   styleUrl: './cadastrar-veiculo.css',
 })
