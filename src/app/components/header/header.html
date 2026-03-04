@@ -1,5 +1,21 @@
 <header class="flex justify-between w-full h-20 bg-[#CC2A2A]">
-    <div class="my-auto mx-3  w-52 h-16 bg-[url('/logo-header.jpg')] bg-contain bg-no-repeat bg-center hover:cursor-pointer" (click)="irParaDashboard()"></div>
-    <div class="flex my-auto mx-5 bg-[url('/user-icon.svg')] w-14 h-14 bg-contain bg-no-repeat bg-center
-    hover:scale-110 duration-300 cursor-pointer"></div>
+    <div class="my-auto mx-3 w-52 h-16 bg-[url('/logo-header.jpg')] bg-contain bg-no-repeat bg-center hover:cursor-pointer"
+        (click)="irParaDashboard()">
+    </div>
+
+    <div class="relative my-auto mx-5">
+
+        <div (click)="toggleMenu()" class="w-14 h-14 bg-[url('/user-icon.svg')] bg-contain bg-no-repeat bg-center cursor-pointer 
+                    hover:opacity-80 active:opacity-60 transition-opacity duration-200">
+        </div>
+
+        <div [class.hidden]="!menuAberto" class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-xl py-1 z-50">
+
+            <button (click)="logout(); menuAberto = false"
+                class="w-full text-left block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                Sair
+            </button>
+
+        </div>
+    </div>
 </header>
