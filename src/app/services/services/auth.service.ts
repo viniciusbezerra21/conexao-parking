@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { LoginResponse } from '../../models/loginResponse';
+import { UserData } from '../../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { LoginResponse } from '../../models/loginResponse';
 export class AuthService {
   private httpClient = inject(HttpClient);
   
+
   login(emailCorporativo: string, senha: string) {
     return this.httpClient.post<LoginResponse>('http://localhost:8080/login', {
       emailCorporativo,
@@ -19,9 +21,7 @@ export class AuthService {
       })
     );
   }
-
   logout() {
     localStorage.removeItem('token');
-  }
-  
+  } 
 }
