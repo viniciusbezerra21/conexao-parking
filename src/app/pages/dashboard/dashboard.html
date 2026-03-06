@@ -1,13 +1,26 @@
-<div class="mt-10 ml-10">
-    <app-search-bar></app-search-bar>
-    <app-tabela>
-        @for (veiculo of veiculos; track veiculo.proprietario.idProprietario) {
-            <tr class="text-center bg-[#b1b1b1] ">
-                <td class="font-medium px-8 py-3.5 border-b border-r border-gray-600">{{ veiculo.proprietario.nome }}</td>
-                <td class="font-medium px-8 py-3.5 border-b border-r border-gray-600">{{ veiculo.tipoVeiculo }}</td>
-                <td class="font-medium px-8 py-3.5 border-b border-r border-gray-600">{{ veiculo.proprietario.cpfProprietario }}</td>
-                <td class="font-medium px-8 py-3.5 border-b border-l border-gray-600">{{ veiculo.numeroPlaca }}</td>
+<div class="flex flex-col gap-6">
+    <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-700">Veiculos estacionados</h2>
+        <app-search-bar></app-search-bar>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <app-tabela [paginaAtual]="currentPage" [totalPaginas]="totalPages" (mudarPagina)="alterarPagina($event)"
+            (mudarTamanho)="alterarTamanhoPagina($event)">
+
+            @for (veiculo of veiculos; track veiculo.proprietario.idProprietario) {
+            <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-6 py-4 border-b border-gray-100 text-gray-700 text-center">{{ veiculo.proprietario.nome }}</td>
+                <td class="px-6 py-4 border-b border-gray-100 text-gray-700 text-center">{{ veiculo.tipoVeiculo }}</td>
+                <td class="px-6 py-4 border-b border-gray-100 text-gray-700 text-center">{{ veiculo.proprietario.cpfProprietario }}
+                </td>
+                <td class="px-6 py-4 border-b border-gray-100 text-gray-700 text-center font-mono">{{ veiculo.numeroPlaca }}</td>
             </tr>
-        }
-    </app-tabela>
+            } @empty {
+            <tr>
+                <td colspan="4" class="text-center py-10 text-gray-500">Nenhum veículo encontrado.</td>
+            </tr>
+            }
+        </app-tabela>
+    </div>
 </div>

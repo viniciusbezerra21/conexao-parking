@@ -1,52 +1,74 @@
-<div class="mt-10 ml-10 flex items-center justify-center">
+<div class="flex items-center justify-center p-6">
     <form [formGroup]="veiculoForm" (ngSubmit)="onSubmit()"
-        class="flex flex-col bg-[#CC2A2A] w-4xl p-8 rounded-xl min-w-150">
-        <h3 class="text-[#FAFAFA] text-4xl text-center">Cadastre um veículo</h3>
+        class="bg-white shadow-2xl border border-gray-100 rounded-2xl p-8 w-full max-w-lg">
 
-        <div class="mt-10 gap-2.5">
+        <h3 class="text-[#CC2A2A] text-3xl font-bold text-center mb-8">Cadastrar Veículo</h3>
 
-            <div formGroupName="proprietario">
-                <div class="flex flex-col gap-2">
-                    <label class="text-xl text-white">Nome do proprietário:</label>
-                    <input type="text" class="w-full h-9 bg-white rounded-xs px-2 outline-none" formControlName="nome"
+        <div class="space-y-5 mb-6" formGroupName="proprietario">
+            <div class="grid grid-cols-1 gap-5">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-gray-600">Nome do proprietário</label>
+                    <input type="text" formControlName="nome"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
                         placeholder="Nome completo">
                 </div>
 
-                <div class="flex flex-col gap-2 mt-2">
-                    <label class="text-xl text-white">CPF do proprietário:</label>
-                    <input type="text" class="w-full h-9 bg-white rounded-xs px-2 outline-none"
-                        formControlName="cpfProprietario" placeholder="000.000.000-00">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-gray-600">CPF</label>
+                    <input type="text" formControlName="cpfProprietario"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
+                        placeholder="000.000.000-00">
                 </div>
-            </div>
-
-            <div class="flex flex-col gap-2 mt-2">
-                <label class="text-xl text-white">Tipo do veículo:</label>
-                <select class="w-full h-9 bg-white rounded-xs px-2 outline-none" formControlName="tipoVeiculo">
-                    <option value="CARRO">Carro</option>
-                    <option value="MOTO">Moto</option>
-                </select>
-            </div>
-
-            <div class="flex flex-col gap-2 mt-2">
-                <label class="text-xl text-white">Número placa:</label>
-                <input type="text" class="w-full h-9 bg-white rounded-xs px-2 outline-none"
-                    formControlName="numeroPlaca" placeholder="ABC-1234">
-            </div>
-
-            <div class="flex flex-col gap-2 mt-2">
-                <label class="text-xl text-white">Cor do veículo:</label>
-                <input type="text" class="w-full h-9 bg-white rounded-xs px-2 outline-none" formControlName="cor">
             </div>
         </div>
 
-        <button type="submit" [disabled]="veiculoForm.invalid"
-            class="mt-6 bg-green-500 text-[#FAFAFA] font-bold py-2 rounded-lg disabled:opacity-50 hover:bg-green-600 duration-300">
-            Adicionar
-        </button>
-        
-        <button type="button"
-            class="mt-6 bg-yellow-600 text-[#FAFAFA] font-bold py-2 rounded-lg disabled:opacity-50 hover:bg-yellow-700 duration-300">
-            Cancelar
-        </button>
+        <hr class="border-gray-100 mb-6">
+
+        <div class="space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-gray-600">Tipo</label>
+                    <select formControlName="tipoVeiculo"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
+                        <option value="CARRO">Carro</option>
+                        <option value="MOTO">Moto</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-gray-600">Placa</label>
+                    <input type="text" formControlName="numeroPlaca"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all"
+                        placeholder="ABC-1234">
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-semibold text-gray-600">Cor</label>
+                <input type="text" formControlName="cor"
+                    class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <label class="text-sm font-semibold text-gray-700">É um veículo de visitante?</label>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" formControlName="visitante" class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#CC2A2A]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#CC2A2A]">
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="flex gap-3 mt-8">
+            <button type="button" (click)="onCancel()"
+                class="flex-1 py-3 rounded-lg border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all cursor-pointer">
+                Cancelar
+            </button>
+            <button type="submit" [disabled]="veiculoForm.invalid"
+                class="flex-1 py-3 bg-[#CC2A2A] text-white font-bold rounded-lg shadow-lg shadow-[#CC2A2A]/20 hover:bg-[#a62323] disabled:opacity-50 transition-all cursor-pointer">
+                Adicionar
+            </button>
+        </div>
     </form>
 </div>

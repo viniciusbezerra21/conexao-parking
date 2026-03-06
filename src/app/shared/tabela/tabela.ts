@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, output } from '@angular/core';
 
 @Component({
   selector: 'app-tabela',
@@ -7,23 +7,37 @@ import { Component, output } from '@angular/core';
   styleUrl: './tabela.css',
 })
 export class Tabela {
-  paginaAtual = 0;
-  totalPaginas = 0;
+  constructor(private cdr: ChangeDetectorRef) { }
 
-  mudarPagina = output<number>();
+  @Input() paginaAtual = 0;
+  @Input() totalPaginas = 0;
+
+  @Output() mudarPagina = new EventEmitter<number>();
+  @Output() mudarTamanho = new EventEmitter<number>();
 
   proximaPagina() {
     if (this.paginaAtual + 1 < this.totalPaginas) {
-      this.paginaAtual++;
-      this.mudarPagina.emit(this.paginaAtual);
+      this.mudarPagina.emit(this.paginaAtual + 1);
     }
   }
 
   paginaAnterior() {
     if (this.paginaAtual > 0) {
-      this.paginaAtual--;
-      this.mudarPagina.emit(this.paginaAtual);
+      this.mudarPagina.emit(this.paginaAtual - 1);
     }
+  }
+
+  alterarTamanho(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    this.mudarTamanho.emit(Number(select.value));
+  }
+
+  aoMudarTamanho(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    const novoTamanho = Number(select.value);
+    this.mudarTamanho.emit(novoTamanho);
+    this.cdr.detectChanges();
+    
   }
 
   atualizarEstado(paginaAtual: number, totalPaginas: number) {

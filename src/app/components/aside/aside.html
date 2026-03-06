@@ -1,21 +1,31 @@
-<aside class="flex flex-col gap-5 bg-[#CC2A2A] h-full pt-10 w-56 fixed">
-    <div class="flex items-center w-full gap-2 pl-7 py-2 hover:bg-red-400 cursor-pointer" (click)="irParaDashboard()">
-        <img src="/home.svg">
-        <div class="text-nowrap text-white border-l pl-2">Dashboard</div>
+<aside class="flex flex-col bg-[#CC2A2A] h-screen w-64 fixed top-0 left-0 shadow-lg">
+    <div class="px-7 py-8">
+        <h1 class="text-white font-bold text-xl tracking-wide">Menu</h1>
     </div>
 
-    <div class="flex items-center w-full gap-2 pl-7 py-2 hover:bg-red-400 cursor-pointer" (click)="irAoLiberarEntrada()">
-        <img src="/seta-direita.svg">
-        <div class="text-nowrap text-white border-l pl-2">Liberar entrada</div>
-    </div>
+    <nav class="flex flex-col gap-1">
+        <button (click)="irParaDashboard()"
+            class="flex items-center gap-4 px-7 py-3 text-white/90 hover:bg-[#a62323] hover:text-white transition-all border-l-4 border-transparent hover:border-white">
+            <img src="/home.svg" class="w-5 h-5">
+            <span class="text-sm font-medium">Dashboard</span>
+        </button>
 
-    <div class="flex items-center w-full gap-2 pl-7 py-2 hover:bg-red-400 cursor-pointer" (click)="irAoLiberarSaida()">
-        <img src="/seta-esquerda.svg">
-        <div class="text-nowrap text-white border-l pl-2">Liberar saída</div>
-    </div>
+        <button (click)="irAoLiberarEntrada()"
+            class="flex items-center gap-4 px-7 py-3 text-white/90 hover:bg-[#a62323] hover:text-white transition-all border-l-4 border-transparent hover:border-white">
+            <img src="/seta-direita.svg" class="w-5 h-5">
+            <span class="text-sm font-medium">Liberar entrada</span>
+        </button>
 
-    <div class="flex items-center w-full gap-2 pl-7 py-2 hover:bg-red-400 cursor-pointer" (click)="irAoCadastroDeVeiculo()">
-        <img src="/adicionar-veiculo.svg">
-        <div class="text-nowrap text-white border-l pl-2" >Adicionar veículo</div>
-    </div>
+        <button (click)="irAoLiberarSaida()"
+            class="flex items-center gap-4 px-7 py-3 text-white/90 hover:bg-[#a62323] hover:text-white transition-all border-l-4 border-transparent hover:border-white">
+            <img src="/seta-esquerda.svg" class="w-5 h-5">
+            <span class="text-sm font-medium">Liberar saída</span>
+        </button>
+
+        <button (click)="irAoCadastroDeVeiculo()"
+            class="flex items-center gap-4 px-7 py-3 text-white/90 hover:bg-[#a62323] hover:text-white transition-all border-l-4 border-transparent hover:border-white">
+            <img src="/adicionar-veiculo.svg" class="w-5 h-5">
+            <span class="text-sm font-medium">Adicionar veículo</span>
+        </button>
+    </nav>
 </aside>

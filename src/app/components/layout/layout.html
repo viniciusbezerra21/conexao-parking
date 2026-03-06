@@ -1,9 +1,11 @@
 <app-header class="fixed top-0 left-0 right-0 h-16 z-50"></app-header>
 
-<div class="pt-16 h-screen overflow-hidden">
-    <app-aside class="fixed top-16 left-0 w-60 h-[calc(100vh-4rem)]"></app-aside>
+<div class="flex pt-16 h-screen overflow-hidden bg-gray-50">
+    <app-aside class="hidden md:block w-60 h-full overflow-y-auto bg-[#CC2A2A] text-white"></app-aside>
 
-    <main class="pl-60 h-full overflow-y-auto p-4 bg-linear-[45deg] from-white/70 to-[#c7acac]/50">
-        <router-outlet></router-outlet>
+    <main class="flex-1 h-full overflow-y-auto p-8">
+        <div class="max-w-7xl mx-auto">
+            <router-outlet></router-outlet>
+        </div>
     </main>
 </div>
