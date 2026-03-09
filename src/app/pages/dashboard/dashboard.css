@@ -1,0 +1,14 @@
+/* No seu dashboard.css */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Evita que o texto quebre durante a animação */
+article div {
+    white-space: nowrap;
+}

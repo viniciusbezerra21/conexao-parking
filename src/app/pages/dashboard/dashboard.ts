@@ -3,21 +3,15 @@ import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Tabela } from '../../shared/tabela/tabela';
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { Veiculo } from '../../models/veiculo';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SearchBar, Tabela],
+  imports: [SearchBar, Tabela, FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
-  animations: [
-    trigger('slideInOut', [
-      state('void', style({ width: '0', opacity: 0, overflow: 'hidden' })),
-      state('*', style({ width: '350px', opacity: 1 })),
-      transition('void <=> *', animate('300ms ease-in-out'))
-    ])
-  ]
 })
 
 export class Dashboard implements OnInit {
@@ -66,7 +60,28 @@ export class Dashboard implements OnInit {
   }
 
   selecionarVeiculo(veiculo: Veiculo) {
-    this.veiculoSelecionado = veiculo;
+    if (this.veiculoSelecionado?.proprietario.idProprietario === veiculo.proprietario.idProprietario) {
+      this.veiculoSelecionado = null;
+    } else {
+      this.veiculoSelecionado = veiculo;
+    }
   }
 
+  // No seu dashboard.ts
+
+  toggleBloqueio(veiculo: any) {
+    if (!veiculo) return;
+
+    // 1. Inverte o estado local (exemplo)
+    veiculo.bloqueado = !veiculo.bloqueado;
+
+    // 2. Aqui você chamaria o seu serviço para salvar no banco de dados
+    console.log(`Veículo ${veiculo.numeroPlaca} agora está: ${veiculo.bloqueado ? 'BLOQUEADO' : 'LIBERADO'}`);
+
+    // Exemplo de chamada ao serviço:
+    // this.veiculoService.atualizarStatusBloqueio(veiculo.id, veiculo.bloqueado).subscribe({
+    //   next: () => console.log('Status atualizado com sucesso'),
+    //   error: (err) => console.error('Erro ao bloquear veículo', err)
+    // });
+  }
 }

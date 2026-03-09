@@ -11,6 +11,7 @@ export class Tabela {
 
   @Input() paginaAtual = 0;
   @Input() totalPaginas = 0;
+  @Input() modoCompacto: boolean = false;
 
   @Output() mudarPagina = new EventEmitter<number>();
   @Output() mudarTamanho = new EventEmitter<number>();
