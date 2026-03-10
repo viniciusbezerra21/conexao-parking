@@ -57,6 +57,7 @@ export class Dashboard implements OnInit {
   alterarPagina(novaPagina: number) {
     this.currentPage = novaPagina;
     this.carregarVeiculos();
+    this.cdr.detectChanges();
   }
 
   selecionarVeiculo(veiculo: Veiculo) {

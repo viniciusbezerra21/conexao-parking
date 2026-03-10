@@ -6,7 +6,7 @@
             <app-search-bar></app-search-bar>
         </div>
     
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-grow min-h-0">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden grow min-h-0">
             <app-tabela [modoCompacto]="!!veiculoSelecionado" [paginaAtual]="currentPage" [totalPaginas]="totalPages"
                 (mudarPagina)="alterarPagina($event)" (mudarTamanho)="alterarTamanhoPagina($event)">
     
@@ -26,9 +26,9 @@
     @if (veiculoSelecionado) {
     <article [class.w-0]="!veiculoSelecionado" [class.w-[380px]]="veiculoSelecionado"
     [class.opacity-0]="!veiculoSelecionado" [class.translate-x-full]="!veiculoSelecionado"
-    class="bg-[#E23C33] text-white h-screen flex flex-col shadow-2xl border-l border-white/20 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden shrink-0 transform rounded-l-2xl">
+    class="bg-[#E23C33] text-white h-screen flex flex-col shadow-2xl border-l border-white/20 animate-slide-in  overflow-hidden shrink-0 transform rounded-l-2xl">
 
-    <div class="w-[380px] p-8 flex flex-col h-full">
+    <div class="w-[380px] p-8 flex flex-col h-full transition-all duration-500 ease-in-out">
 
         <div class="relative flex justify-center items-center mb-10 shrink-0">
             <h3 class="font-bold uppercase text-xs tracking-[0.2em] text-center">Detalhes do Veículo</h3>

@@ -1,4 +1,58 @@
-<div class="flex flex-col justify-center items-center bg-[#E23C33]">
-    <app-search-bar containerClass="w-204 h-10"
-        placeholder="Buscar: proprietário, cpf ou placa..."></app-search-bar>
+<div class="flex flex-col items-center bg-gray-50 min-h-screen">
+
+    <div class="w-[816px] mb-4">
+        <app-search-bar containerClass="w-full h-12  rounded-lg "
+            placeholder="Buscar: proprietário, cpf ou placa..."></app-search-bar>
+    </div>
+
+    <div
+        class="w-[816px] bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100">
+
+        <div class="px-8 py-6 bg-[#CC2A2A] text-white">
+            <h2 class="text-xl font-medium tracking-wide">Dados do Veículo</h2>
+        </div>
+
+        <div class="p-8 flex gap-12 py-16">
+            <div class="flex-1 space-y-4">
+                <div class="flex justify-between border-b border-gray-100 pb-2">
+                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Proprietário</span>
+                    <span class="text-gray-800 font-medium">Vini</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-100 pb-2">
+                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">CPF</span>
+                    <span class="text-gray-800 font-medium">000.000.000-00</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-100 pb-2">
+                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Tipo</span>
+                    <span class="text-gray-800 font-medium">Moto</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-100 pb-2">
+                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Cor</span>
+                    <span class="text-gray-800 font-medium">Vermelho</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-100 pb-2">
+                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Placa</span>
+                    <span class="text-gray-800 font-medium font-mono">AVA-1234</span>
+                </div>
+            </div>
+
+            <div class="flex-1">
+                <label
+                    class="block text-gray-500 text-sm uppercase tracking-wider font-semibold mb-3">Observações</label>
+                <textarea
+                    class="w-full h-full min-h-[140px] p-4 bg-gray-50 rounded-lg border border-gray-200 focus:border-[#E23C33] focus:ring-1 focus:ring-[#E23C33] outline-none transition-all resize-none text-gray-700"
+                    placeholder="Insira informações adicionais..."></textarea>
+            </div>
+        </div>
+
+        <div class="px-8 py-5 bg-gray-50 flex justify-end gap-4 border-t border-gray-100">
+            <button class="px-6 py-2.5 text-gray-600 font-medium hover:text-gray-900 transition-colors cursor-pointer">
+                Cancelar
+            </button>
+            <button
+                class="px-8 py-2.5 bg-[#E23C33] hover:bg-[#c2332c] text-white font-semibold rounded-lg shadow-sm transition-all transform active:scale-95 cursor-pointer">
+                Liberar
+            </button>
+        </div>
+    </div>
 </div>
