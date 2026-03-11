@@ -1,1 +1,35 @@
-<p>liberar-saida works!</p>
+<div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
+
+    <div class="w-204 mb-4 relative">
+        <app-search-bar containerClass="w-full h-12" placeholder="Buscar: proprietário, cpf ou placa..."
+            (aoPesquisar)="filtrar($event)">
+        </app-search-bar>
+
+        @if (resultados.length > 0) {
+        <div
+            class="absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-2xl mt-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            @for (v of resultados; track v.idVeiculo) {
+            <div (click)="selecionarVeiculo(v)"
+                class="px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none flex justify-between items-center">
+                <div class="flex flex-col">
+                    <span class="font-medium text-gray-800">{{ v.proprietario.nome }}</span>
+                    <span class="text-xs text-gray-500">{{ v.proprietario.cpfProprietario }}</span>
+                </div>
+                <span class="text-sm font-mono font-bold text-[#CC2A2A] bg-red-50 px-2 py-1 rounded">
+                    {{ v.numeroPlaca }}
+                </span>
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+    <div class="w-204">
+        <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()">
+            <div class="flex flex-row gap-1 items-center">
+                <img src="/seta-esquerda.svg" class="w-4 h-4">
+                <span>Liberar saída</span>
+            </div>
+        </app-liberar-veiculo-card>
+    </div>
+</div>

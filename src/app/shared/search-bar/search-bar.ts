@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Component({
@@ -11,4 +11,12 @@ import { Component, Input } from '@angular/core';
 export class SearchBar {
   @Input() containerClass: string = 'w-64 h-12';
   @Input() placeholder: string = 'Buscar';
+  
+  @Output() aoPesquisar = new EventEmitter<string>();
+  
+  onInput(event: Event) {
+    const valor = (event.target as HTMLInputElement).value;
+    this.aoPesquisar.emit(valor);
+  }
+
 }

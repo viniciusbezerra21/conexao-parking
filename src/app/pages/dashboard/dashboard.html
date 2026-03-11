@@ -3,7 +3,7 @@
     <div class="flex-1 flex flex-col gap-6 p-6 transition-all duration-300 ease-in-out h-full min-w-0">
         <div class="flex justify-between items-center shrink-0">
             <h2 class="text-2xl font-bold text-gray-700">Veículos estacionados</h2>
-            <app-search-bar></app-search-bar>
+            <app-search-bar (aoPesquisar)="filtrar($event)"></app-search-bar>
         </div>
     
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden grow min-h-0">
@@ -28,7 +28,7 @@
     [class.opacity-0]="!veiculoSelecionado" [class.translate-x-full]="!veiculoSelecionado"
     class="bg-[#E23C33] text-white h-screen flex flex-col shadow-2xl border-l border-white/20 animate-slide-in  overflow-hidden shrink-0 transform rounded-l-2xl">
 
-    <div class="w-[380px] p-8 flex flex-col h-full transition-all duration-500 ease-in-out">
+    <div class="w-95 p-8 flex flex-col h-full transition-all duration-500 ease-in-out">
 
         <div class="relative flex justify-center items-center mb-10 shrink-0">
             <h3 class="font-bold uppercase text-xs tracking-[0.2em] text-center">Detalhes do Veículo</h3>
@@ -42,21 +42,21 @@
 
             <div class="flex flex-col gap-2 opacity-90">
                 <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Proprietário</label>
-                <div class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner min-h-[48px] flex items-center font-semibold">
+                <div class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner min-h-12 flex items-center font-semibold">
                     {{ veiculoSelecionado.proprietario.nome }}
                 </div>
             </div>
 
             <div class="flex flex-col gap-2 opacity-90">
                 <label class="text-[10px] font-black uppercase tracking-wider opacity-70">CPF</label>
-                <div class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner min-h-[48px] flex items-center">
+                <div class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner min-h-12 flex items-center">
                     {{ veiculoSelecionado.proprietario.cpfProprietario }}
                 </div>
             </div>
 
             <div class="flex flex-col gap-2 opacity-90">
                 <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Placa</label>
-                <div class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner min-h-[48px] flex items-center font-mono font-bold">
+                <div class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner min-h-12 flex items-center font-mono font-bold">
                     {{ veiculoSelecionado.numeroPlaca }}
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" class="sr-only peer" (change)="toggleBloqueio(veiculoSelecionado)">
-                    <div class="w-12 h-6 bg-red-900/40 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-6 shadow-lg">
+                    <div class="w-12 h-6 bg-red-900/40 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-6 shadow-lg">
                     </div>
                 </label>
             </div>

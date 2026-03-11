@@ -27,6 +27,12 @@ export class VeiculoService {
     );
   }
 
+  obterTodosParaBusca(): Observable<PageResponse<Veiculo>> {
+    return this.httpClient.get<PageResponse<Veiculo>>(`${this.API_URL}?page=0&size=500`);
+  }
+
+
+
   cadastrarVeiculo(veiculo: Veiculo): Observable<Veiculo> {
     return this.httpClient.post<Veiculo>(this.API_URL, veiculo);
   }

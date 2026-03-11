@@ -1,58 +1,36 @@
-<div class="flex flex-col items-center bg-gray-50 min-h-screen">
+<div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
 
-    <div class="w-[816px] mb-4">
-        <app-search-bar containerClass="w-full h-12  rounded-lg "
-            placeholder="Buscar: proprietário, cpf ou placa..."></app-search-bar>
+    <div class="w-204 mb-4 relative">
+        <app-search-bar containerClass="w-full h-12"
+            placeholder="Buscar: proprietário, cpf ou placa..." 
+            (aoPesquisar)="filtrar($event)">
+        </app-search-bar>
+
+        @if (resultados.length > 0) {
+        <div
+            class="absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-2xl mt-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            @for (v of resultados; track v.idVeiculo) {
+            <div (click)="selecionarVeiculo(v)"
+                class="px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none flex justify-between items-center">
+                <div class="flex flex-col">
+                    <span class="font-medium text-gray-800">{{ v.proprietario.nome }}</span>
+                    <span class="text-xs text-gray-500">{{ v.proprietario.cpfProprietario }}</span>
+                </div>
+                <span class="text-sm font-mono font-bold text-[#CC2A2A] bg-red-50 px-2 py-1 rounded">
+                    {{ v.numeroPlaca }}
+                </span>
+            </div>
+            }
+        </div>
+        }
     </div>
 
-    <div
-        class="w-[816px] bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100">
-
-        <div class="px-8 py-6 bg-[#CC2A2A] text-white">
-            <h2 class="text-xl font-medium tracking-wide">Dados do Veículo</h2>
-        </div>
-
-        <div class="p-8 flex gap-12 py-16">
-            <div class="flex-1 space-y-4">
-                <div class="flex justify-between border-b border-gray-100 pb-2">
-                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Proprietário</span>
-                    <span class="text-gray-800 font-medium">Vini</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-100 pb-2">
-                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">CPF</span>
-                    <span class="text-gray-800 font-medium">000.000.000-00</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-100 pb-2">
-                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Tipo</span>
-                    <span class="text-gray-800 font-medium">Moto</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-100 pb-2">
-                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Cor</span>
-                    <span class="text-gray-800 font-medium">Vermelho</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-100 pb-2">
-                    <span class="text-gray-500 text-sm uppercase tracking-wider font-semibold">Placa</span>
-                    <span class="text-gray-800 font-medium font-mono">AVA-1234</span>
-                </div>
+    <div class="w-204">
+        <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()" (liberar)="onEfetuarLiberacao($event)">
+            <div class="flex flex-row gap-1 items-center">
+                <img src="/seta-direita.svg" class="w-4 h-4">
+                <span>Liberar entrada</span>
             </div>
-
-            <div class="flex-1">
-                <label
-                    class="block text-gray-500 text-sm uppercase tracking-wider font-semibold mb-3">Observações</label>
-                <textarea
-                    class="w-full h-full min-h-[140px] p-4 bg-gray-50 rounded-lg border border-gray-200 focus:border-[#E23C33] focus:ring-1 focus:ring-[#E23C33] outline-none transition-all resize-none text-gray-700"
-                    placeholder="Insira informações adicionais..."></textarea>
-            </div>
-        </div>
-
-        <div class="px-8 py-5 bg-gray-50 flex justify-end gap-4 border-t border-gray-100">
-            <button class="px-6 py-2.5 text-gray-600 font-medium hover:text-gray-900 transition-colors cursor-pointer">
-                Cancelar
-            </button>
-            <button
-                class="px-8 py-2.5 bg-[#E23C33] hover:bg-[#c2332c] text-white font-semibold rounded-lg shadow-sm transition-all transform active:scale-95 cursor-pointer">
-                Liberar
-            </button>
-        </div>
+        </app-liberar-veiculo-card>
     </div>
 </div>

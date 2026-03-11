@@ -23,6 +23,7 @@ export class Dashboard implements OnInit {
   veiculoSelecionado: Veiculo | null = null;
   
   veiculos: Veiculo[] = [];
+  listaCompleta: Veiculo[] = []
   totalPages = 0;
   currentPage = 0;
   pageSize = 10;
@@ -32,6 +33,10 @@ export class Dashboard implements OnInit {
     this.veiculoService.veiculoAdicionado$.subscribe(() => {
       console.log('Novo veiculo adicionado');
       this.carregarVeiculos();
+    });
+    this.veiculoService.obterTodosParaBusca().subscribe(res => {
+      this.listaCompleta = res.content;
+      this.veiculos = [... this.listaCompleta];
     })
   }
 
@@ -84,5 +89,19 @@ export class Dashboard implements OnInit {
     //   next: () => console.log('Status atualizado com sucesso'),
     //   error: (err) => console.error('Erro ao bloquear veículo', err)
     // });
+  }
+
+
+
+
+  filtrar(termo: string) {
+    const t = termo.toLowerCase();
+
+    // Filtra a lista principal e atualiza a lista que a tabela consome
+    this.veiculos = this.listaCompleta.filter(v =>
+      v.proprietario.nome.toLowerCase().includes(t) ||
+      v.proprietario.cpfProprietario.toLowerCase().includes(t) ||
+      v.numeroPlaca.toLowerCase().includes(t)
+    );
   }
 }

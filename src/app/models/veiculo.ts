@@ -1,4 +1,5 @@
 export interface Veiculo {
+    idVeiculo: number,
     proprietario: Proprietario,
     tipoVeiculo: TipoVeiculo,
     statusVeiculo?: StatusVeiculo,
