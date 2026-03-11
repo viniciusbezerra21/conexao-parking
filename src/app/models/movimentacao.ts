@@ -1,9 +1,11 @@
+import { Veiculo } from './veiculo';
 export interface MovimentacaoEntrada {
     idMovimentacao: number,
+    Veiculo: Veiculo,
     observacaoEntrada: string
 }
 
 export interface MovimentacaoSaida {
-    idMovimentacao: number,
+    MovimentacaoEntrada: MovimentacaoEntrada 
     observacaoSaida: string
 }

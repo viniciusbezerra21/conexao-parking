@@ -12,20 +12,32 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class LiberarVeiculoCard {
   veiculo = input<Veiculo | null>(null);
 
-  @Output() liberar = new EventEmitter<{ idMovimentacao: number, observacao: string | null }>();
+  idReferencia = input<number | null | undefined>(null);
+
+  @Output() confirmarAcao = new EventEmitter<{ id: number, observacao: string | null }>();
+
 
   observacaoControl = new FormControl('');
 
   onClickLiberar() {
-    const veiculoAtual = this.veiculo();
+    const v = this.veiculo();
 
-    if (veiculoAtual && veiculoAtual.idVeiculo) {
-      this.liberar.emit({
-        idMovimentacao: veiculoAtual?.idVeiculo as number,
-        observacao: this?.observacaoControl.value
-      })
+    // --- DEBUG DE SEGURANÇA ---
+    console.log("DEBUG: Conteúdo do objeto veiculo():", v);
+    if (v) {
+      console.log("DEBUG: Chaves existentes no objeto:", Object.keys(v));
+    }
+    // --------------------------
+
+    const id = v?.idVeiculo;
+
+    if (id) {
+      this.confirmarAcao.emit({
+        id: id,
+        observacao: this.observacaoControl.value
+      });
     } else {
-      console.error('Veículo nulo ou sem ID');
+      console.warn("Nenhum ID encontrado. Verifique se o nome da propriedade é 'idVeiculo' ou 'id'.");
     }
   }
   

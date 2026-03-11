@@ -25,7 +25,7 @@
     </div>
 
     <div class="w-204">
-        <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()">
+        <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()" (confirmarAcao)="registrarSaida($event)">
             <div class="flex flex-row gap-1 items-center">
                 <img src="/seta-esquerda.svg" class="w-4 h-4">
                 <span>Liberar saída</span>

@@ -48,14 +48,21 @@ export class LiberarEntrada implements OnInit {
     this.resultados = []; 
   }
 
-  onEfetuarLiberacao(dados: {idMovimentacao: number, observacao: string | null}) {
-    this.movimentacaoService.liberarEntrada(dados).subscribe({
-      next: (resposta) => {
-        console.log('Liberação efetuada com sucesso!');
-        alert('Liberação efetuada com sucesso!');
-        
+  registrarEntrada(evento: { id: number, observacao: string | null }) {
+    if (!evento.id) {
+      console.error("ID do veículo não encontrado!");
+      return;
+    }
+
+    this.movimentacaoService.liberarEntrada(evento.id, evento.observacao).subscribe({
+      next: (res) => {
+        console.log('Entrada liberada!', res);
+        this.veiculoSelecionado.set(null); 
+      },
+      error: (err) => {
+        console.error('Erro na entrada', err);
       }
-    })
+    });
   }
   
 }

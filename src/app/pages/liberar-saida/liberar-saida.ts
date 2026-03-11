@@ -3,6 +3,7 @@ import { SearchBar } from '../../shared/search-bar/search-bar';
 import { LiberarVeiculoCard } from '../../shared/liberar-veiculo-card/liberar-veiculo-card';
 import { Veiculo } from '../../models/veiculo';
 import { VeiculoService } from '../../services/services/veiculo.service';
+import { MovimentacaoService } from '../../services/services/movimentacao.service';
 
 @Component({
   selector: 'app-liberar-saida',
@@ -15,7 +16,10 @@ export class LiberarSaida {
   resultados: Veiculo[] = [];
   veiculoSelecionado = signal<Veiculo | null>(null);
 
-  constructor(private veiculoService: VeiculoService) { }
+  constructor(
+    private veiculoService: VeiculoService,
+    private movimentacaoService: MovimentacaoService
+  ) { }
 
   ngOnInit() {
     this.veiculoService.obterTodosParaBusca().subscribe(res => {
@@ -42,5 +46,12 @@ export class LiberarSaida {
   selecionarVeiculo(v: Veiculo) {
     this.veiculoSelecionado.set(v);
     this.resultados = [];
+  }
+
+  registrarSaida(evento: { id: number, observacao: string | null }) {
+    this.movimentacaoService.liberarSaida(evento.id, evento.observacao).subscribe({
+      next: (res) => console.log('Saída liberada!', res),
+      error: (err) => console.error('Erro na saída', err)
+    });
   }
 }

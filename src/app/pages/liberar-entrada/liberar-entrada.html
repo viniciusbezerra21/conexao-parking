@@ -1,8 +1,7 @@
 <div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
 
     <div class="w-204 mb-4 relative">
-        <app-search-bar containerClass="w-full h-12"
-            placeholder="Buscar: proprietário, cpf ou placa..." 
+        <app-search-bar containerClass="w-full h-12" placeholder="Buscar: proprietário, cpf ou placa..."
             (aoPesquisar)="filtrar($event)">
         </app-search-bar>
 
@@ -26,7 +25,9 @@
     </div>
 
     <div class="w-204">
-        <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()" (liberar)="onEfetuarLiberacao($event)">
+        <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()" [idReferencia]="veiculoSelecionado()?.idVeiculo"
+            (confirmarAcao)="registrarEntrada($event)">
+
             <div class="flex flex-row gap-1 items-center">
                 <img src="/seta-direita.svg" class="w-4 h-4">
                 <span>Liberar entrada</span>
