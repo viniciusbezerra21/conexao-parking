@@ -1,11 +1,32 @@
 import { Veiculo } from './veiculo';
-export interface MovimentacaoEntrada {
-    idMovimentacao: number,
-    Veiculo: Veiculo,
-    observacaoEntrada: string
+
+export interface Movimentacao {
+    id: number;
+    numeroPlaca: string;
+    nomeProprietario: string; 
+    cpfProprietario: string;  
+    dataEntrada: string;
+    dataSaida: string | null;
+    observacaoEntrada: string | null;
+    observacaoSaida: string | null;
 }
 
+
+export interface MovimentacaoEntrada {
+    id: number;
+    veiculo: Veiculo;
+    observacaoEntrada: string;
+}
+
+
 export interface MovimentacaoSaida {
-    MovimentacaoEntrada: MovimentacaoEntrada 
-    observacaoSaida: string
+    id: number;
+    observacaoSaida: string;
+    dataSaida: string;
+}
+
+export interface PaginaMovimentacao {
+    content: Movimentacao[];
+    totalElements: number;
+    totalPages: number;
 }

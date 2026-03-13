@@ -7,62 +7,85 @@ import { MovimentacaoService } from '../../services/services/movimentacao.servic
 
 @Component({
   selector: 'app-liberar-entrada',
+  standalone: true,
   imports: [SearchBar, LiberarVeiculoCard],
   templateUrl: './liberar-entrada.html',
   styleUrl: './liberar-entrada.css',
 })
 export class LiberarEntrada implements OnInit {
-  listaCompleta: Veiculo[] = [];
-  resultados: Veiculo[] = []; 
-  veiculoSelecionado = signal<Veiculo | null>(null); 
+  private readonly listaCompleta = signal<Veiculo[]>([]);
+  readonly resultados = signal<Veiculo[]>([]);
+  readonly veiculoSelecionado = signal<Veiculo | null>(null);
 
   constructor(
-    private veiculoService: VeiculoService,
-    private movimentacaoService: MovimentacaoService
+    private readonly veiculoService: VeiculoService,
+    private readonly movimentacaoService: MovimentacaoService
   ) { }
 
-  ngOnInit() {
-    this.veiculoService.obterTodosParaBusca().subscribe(res => {
-      this.listaCompleta = res.content;
-      console.log('Veículos carregados:', this.listaCompleta);
+  ngOnInit(): void {
+    this.carregarVeiculos();
+  }
+
+  private carregarVeiculos(): void {
+    this.veiculoService.obterTodosParaBusca().subscribe({
+      next: (res) => {
+
+        this.listaCompleta.set(res.content || res);
+        console.log('Veículos sincronizados para busca');
+      },
+      error: (err) => console.error('Erro ao carregar veículos:', err)
     });
   }
 
-  filtrar(termo: string): Veiculo[] {
+  filtrar(termo: string): void {
     if (!termo || termo.length < 3) {
-      return []; 
+      this.resultados.set([]);
+      return;
     }
 
     const t = termo.toLowerCase();
 
 
-    return this.resultados = [...this.listaCompleta.filter(v =>
+    const filtrados = this.listaCompleta().filter(v =>
       v.proprietario.nome.toLowerCase().includes(t) ||
       v.proprietario.cpfProprietario.toLowerCase().includes(t) ||
       v.numeroPlaca.toLowerCase().includes(t)
-    )];
+    );
+
+    this.resultados.set(filtrados);
   }
 
-  selecionarVeiculo(v: Veiculo) {
-    this.veiculoSelecionado.set(v);
-    this.resultados = []; 
+  isLoadingDetalhamento = signal(false);
+
+  selecionarVeiculo(v: Veiculo): void {
+    this.resultados.set([]);
+    this.isLoadingDetalhamento.set(true); 
+
+    this.veiculoService.detalhar(v.idVeiculo).subscribe({
+      next: (veiculoCompleto) => {
+        this.veiculoSelecionado.set(veiculoCompleto);
+        this.isLoadingDetalhamento.set(false); 
+      },
+      error: () => this.isLoadingDetalhamento.set(false)
+    });
   }
 
-  registrarEntrada(evento: { id: number, observacao: string | null }) {
+  registrarEntrada(evento: { id: number, observacao: string | null }): void {
+
     if (!evento.id) {
-      console.error("ID do veículo não encontrado!");
+      console.warn('Tentativa de registro sem ID de veículo.');
       return;
     }
 
     this.movimentacaoService.liberarEntrada(evento.id, evento.observacao).subscribe({
       next: (res) => {
-        console.log('Entrada liberada!', res);
-        this.veiculoSelecionado.set(null); 
+        alert('Entrada registrada com sucesso!');
+        this.veiculoSelecionado.set(null);
       },
       error: (err) => {
-        console.error('Erro na entrada', err);
+        console.error('Erro ao processar entrada na API:', err);
+        alert('Ocorreu um erro ao registrar a entrada. Verifique o console.');
       }
     });
   }
-  
 }

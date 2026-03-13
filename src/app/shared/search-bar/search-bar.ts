@@ -11,12 +11,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class SearchBar {
   @Input() containerClass: string = 'w-64 h-12';
   @Input() placeholder: string = 'Buscar';
-  
   @Output() aoPesquisar = new EventEmitter<string>();
-  
+
+  private debounceTimer: any;
+
+  // search-bar.ts
   onInput(event: Event) {
     const valor = (event.target as HTMLInputElement).value;
-    this.aoPesquisar.emit(valor);
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      console.log('Emitindo busca:', valor); // <-- Verifique se isso aparece no console!
+      this.aoPesquisar.emit(valor);
+    }, 300);
   }
-
 }

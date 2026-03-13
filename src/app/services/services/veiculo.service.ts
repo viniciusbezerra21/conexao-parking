@@ -31,7 +31,9 @@ export class VeiculoService {
     return this.httpClient.get<PageResponse<Veiculo>>(`${this.API_URL}?page=0&size=500`);
   }
 
-
+  detalhar(id: number): Observable<Veiculo> {
+    return this.httpClient.get<Veiculo>(`${this.API_URL}/${id}`);
+  }
 
   cadastrarVeiculo(veiculo: Veiculo): Observable<Veiculo> {
     return this.httpClient.post<Veiculo>(this.API_URL, veiculo);

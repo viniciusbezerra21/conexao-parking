@@ -1,57 +1,63 @@
 import { Component, signal } from '@angular/core';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { LiberarVeiculoCard } from '../../shared/liberar-veiculo-card/liberar-veiculo-card';
-import { Veiculo } from '../../models/veiculo';
-import { VeiculoService } from '../../services/services/veiculo.service';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
+import { Movimentacao } from '../../models/movimentacao';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-liberar-saida',
-  imports: [SearchBar, LiberarVeiculoCard],
+  imports: [SearchBar, LiberarVeiculoCard, DatePipe],
   templateUrl: './liberar-saida.html',
   styleUrl: './liberar-saida.css',
 })
 export class LiberarSaida {
-  listaCompleta: Veiculo[] = [];
-  resultados: Veiculo[] = [];
-  veiculoSelecionado = signal<Veiculo | null>(null);
+  listaCompleta = signal<Movimentacao[]>([]);
+  resultados = signal<Movimentacao[]>([]);
 
-  constructor(
-    private veiculoService: VeiculoService,
-    private movimentacaoService: MovimentacaoService
-  ) { }
+  movimentacaoSelecionada = signal<Movimentacao | null>(null);
+
+  private readonly _idMovimentacaoSelecionada = signal<number | null>(null);
+
+  get idMovimentacaoSelecionada() {
+    return this._idMovimentacaoSelecionada.asReadonly();
+  }
+
+  constructor(private movimentacaoService: MovimentacaoService) { }
 
   ngOnInit() {
-    this.veiculoService.obterTodosParaBusca().subscribe(res => {
-      this.listaCompleta = res.content;
-      console.log('Veículos carregados:', this.listaCompleta);
+    this.movimentacaoService.listar().subscribe(res => {
+      // res.content é o array que vem do seu JSON
+      this.listaCompleta.set(res.content.filter((m: Movimentacao) => !m.dataSaida));
     });
   }
 
-  filtrar(termo: string): Veiculo[] {
+  filtrar(termo: string): void {
     if (!termo || termo.length < 3) {
-      return [];
+      this.resultados.set([]);
+      return;
     }
-
     const t = termo.toLowerCase();
-
-
-    return this.resultados = [...this.listaCompleta.filter(v =>
-      v.proprietario.nome.toLowerCase().includes(t) ||
-      v.proprietario.cpfProprietario.toLowerCase().includes(t) ||
-      v.numeroPlaca.toLowerCase().includes(t)
-    )];
+    this.resultados.set(this.listaCompleta().filter(m =>
+      m.numeroPlaca.toLowerCase().includes(t) || m.nomeProprietario.toLowerCase().includes(t)
+    ));
   }
 
-  selecionarVeiculo(v: Veiculo) {
-    this.veiculoSelecionado.set(v);
-    this.resultados = [];
+  selecionarMovimentacao(m: Movimentacao) {
+    this._idMovimentacaoSelecionada.set(m.id);
+    this.movimentacaoSelecionada.set(m); 
+    this.resultados.set([]);
   }
 
-  registrarSaida(evento: { id: number, observacao: string | null }) {
-    this.movimentacaoService.liberarSaida(evento.id, evento.observacao).subscribe({
-      next: (res) => console.log('Saída liberada!', res),
-      error: (err) => console.error('Erro na saída', err)
+  registrarSaida(evento: { observacao: string | null }) {
+    const id = this.idMovimentacaoSelecionada();
+    if (!id) return;
+
+    this.movimentacaoService.liberarSaida(id, evento.observacao).subscribe({
+      next: () => {
+        this.movimentacaoSelecionada.set(null);
+        this._idMovimentacaoSelecionada.set(null);
+      }
     });
   }
 }

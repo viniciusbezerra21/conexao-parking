@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { MovimentacaoEntrada, MovimentacaoSaida } from '../../models/movimentacao';
+import { MovimentacaoEntrada, MovimentacaoSaida, PaginaMovimentacao } from '../../models/movimentacao';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,11 @@ export class MovimentacaoService {
     return this.httpClient.post<MovimentacaoSaida>(`${this.API_URL}/liberar-saida`, payload);
   }
 
-  listar(page: number = 0): Observable<any> {
-    return this.httpClient.get(`${this.API_URL}?page=${page}&size=10`);
+  listar(page: number = 0, size: number = 10): Observable<PaginaMovimentacao> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<PaginaMovimentacao>(`${this.API_URL}`, { params });
   }
 }

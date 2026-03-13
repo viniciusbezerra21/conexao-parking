@@ -5,10 +5,10 @@
             (aoPesquisar)="filtrar($event)">
         </app-search-bar>
 
-        @if (resultados.length > 0) {
+        @if (resultados().length > 0) {
         <div
             class="absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-2xl mt-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            @for (v of resultados; track v.idVeiculo) {
+            @for (v of resultados(); track v.idVeiculo) {
             <div (click)="selecionarVeiculo(v)"
                 class="px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none flex justify-between items-center">
                 <div class="flex flex-col">
@@ -29,7 +29,7 @@
             (confirmarAcao)="registrarEntrada($event)">
 
             <div class="flex flex-row gap-1 items-center">
-                <img src="/seta-direita.svg" class="w-4 h-4">
+                <img src="/seta-direita.svg" class="w-4 h-4" alt="Ícone">
                 <span>Liberar entrada</span>
             </div>
         </app-liberar-veiculo-card>
