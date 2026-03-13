@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-liberar-saida',
-  imports: [SearchBar, LiberarVeiculoCard, DatePipe],
+  imports: [SearchBar, LiberarVeiculoCard],
   templateUrl: './liberar-saida.html',
   styleUrl: './liberar-saida.css',
 })
@@ -55,6 +55,7 @@ export class LiberarSaida {
 
     this.movimentacaoService.liberarSaida(id, evento.observacao).subscribe({
       next: () => {
+        alert('Saída registrada com sucesso!');
         this.movimentacaoSelecionada.set(null);
         this._idMovimentacaoSelecionada.set(null);
       }
