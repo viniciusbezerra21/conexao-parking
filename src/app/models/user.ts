@@ -3,3 +3,15 @@ export interface UserData {
     senha: string;
     repetirSenha: string
 }
+
+export interface Usuario {
+    idUsuario: number;
+    emailCorporativo: string;
+    senha: string;
+    ativo: boolean;
+}
+
+export interface CadastroResponse {
+    usuario: Usuario;
+    token: string;
+}

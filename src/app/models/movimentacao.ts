@@ -1,4 +1,4 @@
-import { Veiculo } from './veiculo';
+import { Veiculo, TipoVeiculo } from './veiculo';
 
 export interface Movimentacao {
     id: number;
@@ -29,4 +29,6 @@ export interface PaginaMovimentacao {
     content: Movimentacao[];
     totalElements: number;
     totalPages: number;
+    number: number;
+    size?: number;
 }

@@ -1,107 +1,99 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Tabela } from '../../shared/tabela/tabela';
-import { VeiculoService } from '../../services/services/veiculo.service';
-import { Veiculo } from '../../models/veiculo';
+import { MovimentacaoService } from '../../services/services/movimentacao.service';
+import { Movimentacao } from '../../models/movimentacao';
 import { FormsModule } from '@angular/forms';
-
-
+import { DatePipe } from '@angular/common';
+import { VeiculoService } from '../../services/services/veiculo.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SearchBar, Tabela, FormsModule],
+  imports: [SearchBar, Tabela, FormsModule, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-
 export class Dashboard implements OnInit {
   constructor(
     private veiculoService: VeiculoService,
+    private movimentacaoService: MovimentacaoService,
     private cdr: ChangeDetectorRef
   ) { }
 
-  veiculoSelecionado: Veiculo | null = null;
   
-  veiculos: Veiculo[] = [];
-  listaCompleta: Veiculo[] = []
+  movimentacoes: Movimentacao[] = [];
+  movimentacoesExibicao: Movimentacao[] = [];
+  movimentacaoSelecionada: Movimentacao | null = null;
   totalPages = 0;
   currentPage = 0;
   pageSize = 10;
+  
+  private mapaTipoVeiculo = new Map<string, string>();
 
   ngOnInit() {
-    this.carregarVeiculos();
-    this.veiculoService.veiculoAdicionado$.subscribe(() => {
-      console.log('Novo veiculo adicionado');
-      this.carregarVeiculos();
-    });
-    this.veiculoService.obterTodosParaBusca().subscribe(res => {
-      this.listaCompleta = res.content;
-      this.veiculos = [... this.listaCompleta];
-    })
+    this.carregarMovimentacoes();
+    this.carregarMapa();
   }
 
-  carregarVeiculos() {
-    this.veiculoService.obterVeiculo(this.currentPage, this.pageSize).subscribe({
+  carregarMovimentacoes() {
+    this.movimentacaoService.listar(this.currentPage, this.pageSize).subscribe({
       next: response => {
-        this.veiculos = response.content;
+
+        const hoje = new Date().toISOString().split('T')[0];
+
+
+        this.movimentacoes = response.content.filter(m =>
+          m.dataEntrada.startsWith(hoje)
+        );
+
+        this.movimentacoesExibicao = [...this.movimentacoes];
         this.totalPages = response.totalPages;
         this.currentPage = response.number;
         this.cdr.detectChanges();
-        console.log('Veículos carregados:', this.veiculos);
       },
-      error: err => console.error('Erro ao carregar veículos:', err)
+      error: err => console.error('Erro ao carregar movimentações:', err)
     });
   }
 
-  alterarTamanhoPagina(novoTamanho: number) {
-    this.pageSize = novoTamanho;
-    this.currentPage = 0;
-    this.carregarVeiculos();
+
+  carregarMapa() {
+    this.veiculoService.obterVeiculo(0, 1000).subscribe({
+      next: res => {
+        res.content.forEach(v => {
+          this.mapaTipoVeiculo.set(v.numeroPlaca, v.tipoVeiculo);
+        });
+        this.cdr.detectChanges();
+      }
+    });
   }
 
-  alterarPagina(novaPagina: number) {
-    this.currentPage = novaPagina;
-    this.carregarVeiculos();
-    this.cdr.detectChanges();
+  obterTipoVeiculo(placa: string): string {
+    return this.mapaTipoVeiculo.get(placa) || 'N/A';
   }
-
-  selecionarVeiculo(veiculo: Veiculo) {
-    if (this.veiculoSelecionado?.proprietario.idProprietario === veiculo.proprietario.idProprietario) {
-      this.veiculoSelecionado = null;
-    } else {
-      this.veiculoSelecionado = veiculo;
-    }
-  }
-
-  // No seu dashboard.ts
-
-  toggleBloqueio(veiculo: any) {
-    if (!veiculo) return;
-
-    // 1. Inverte o estado local (exemplo)
-    veiculo.bloqueado = !veiculo.bloqueado;
-
-    // 2. Aqui você chamaria o seu serviço para salvar no banco de dados
-    console.log(`Veículo ${veiculo.numeroPlaca} agora está: ${veiculo.bloqueado ? 'BLOQUEADO' : 'LIBERADO'}`);
-
-    // Exemplo de chamada ao serviço:
-    // this.veiculoService.atualizarStatusBloqueio(veiculo.id, veiculo.bloqueado).subscribe({
-    //   next: () => console.log('Status atualizado com sucesso'),
-    //   error: (err) => console.error('Erro ao bloquear veículo', err)
-    // });
-  }
-
-
-
 
   filtrar(termo: string) {
     const t = termo.toLowerCase();
 
-    // Filtra a lista principal e atualiza a lista que a tabela consome
-    this.veiculos = this.listaCompleta.filter(v =>
-      v.proprietario.nome.toLowerCase().includes(t) ||
-      v.proprietario.cpfProprietario.toLowerCase().includes(t) ||
-      v.numeroPlaca.toLowerCase().includes(t)
+
+    this.movimentacoesExibicao = this.movimentacoes.filter(m =>
+      m.nomeProprietario.toLowerCase().includes(t) ||
+      m.cpfProprietario.toLowerCase().includes(t) ||
+      m.numeroPlaca.toLowerCase().includes(t)
     );
+  }
+
+  selecionarMovimentacao(mov: Movimentacao) {
+    this.movimentacaoSelecionada = (this.movimentacaoSelecionada?.id === mov.id) ? null : mov;
+  }
+
+  alterarPagina(novaPagina: number) {
+    this.currentPage = novaPagina;
+    this.carregarMovimentacoes();
+  }
+
+  alterarTamanhoPagina(novoTamanho: number) {
+    this.pageSize = novoTamanho;
+    this.currentPage = 0; // Reinicia para a primeira página ao mudar o tamanho
+    this.carregarMovimentacoes();
   }
 }

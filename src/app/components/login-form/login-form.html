@@ -1,4 +1,10 @@
-<div class="flex flex-col gap-5 bg-[#FAFAFA]/70 w-<> p-10 rounded-xl min-w-150">
-    <div class="bg-[url('/logo-login.png')] bg-contain bg-no-repeat bg-center w-130 aspect-7/3 "></div>
-    <ng-content></ng-content>
+<div class="flex flex-col bg-[#FAFAFA]/70 p-8 rounded-xl min-w-100 max-w-112.5 max-h-[85vh] overflow-hidden">
+
+    <div class="flex justify-center w-full shrink-0 mb-4">
+        <img src="/logo-login.png" alt="Logo" class="h-20 w-auto object-contain">
+    </div>
+
+    <div class="flex flex-col grow justify-center overflow-hidden">
+        <ng-content></ng-content>
+    </div>
 </div>
