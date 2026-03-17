@@ -38,15 +38,9 @@ export class Dashboard implements OnInit {
   carregarMovimentacoes() {
     this.movimentacaoService.listar(this.currentPage, this.pageSize).subscribe({
       next: response => {
-
-        const hoje = new Date().toISOString().split('T')[0];
-
-
-        this.movimentacoes = response.content.filter(m =>
-          m.dataEntrada.startsWith(hoje)
-        );
-
+        this.movimentacoes = response.content;
         this.movimentacoesExibicao = [...this.movimentacoes];
+
         this.totalPages = response.totalPages;
         this.currentPage = response.number;
         this.cdr.detectChanges();
@@ -93,7 +87,7 @@ export class Dashboard implements OnInit {
 
   alterarTamanhoPagina(novoTamanho: number) {
     this.pageSize = novoTamanho;
-    this.currentPage = 0; // Reinicia para a primeira página ao mudar o tamanho
+    this.currentPage = 0; 
     this.carregarMovimentacoes();
   }
 }

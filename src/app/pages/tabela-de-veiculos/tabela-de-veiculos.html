@@ -1,0 +1,111 @@
+<div class="flex flex-row h-screen overflow-hidden bg-gray-50">
+
+    <div class="flex-1 flex flex-col gap-6 p-6 transition-all duration-300 ease-in-out h-full min-w-0">
+        <div class="flex justify-between items-center shrink-0">
+            <h2 class="text-2xl font-bold text-gray-700">Gestão de Veículos</h2>
+            <app-search-bar (aoPesquisar)="filtrar($event)"></app-search-bar>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden grow min-h-0">
+            <app-tabela [modoCompacto]="!!veiculoSelecionado" [paginaAtual]="currentPage" [totalPaginas]="totalPages"
+                (mudarPagina)="alterarPagina($event)" (mudarTamanho)="alterarTamanhoPagina($event)">
+
+                @for (veiculo of veiculosExibicao; track veiculo.idVeiculo) {
+                <tr (click)="selecionarVeiculo(veiculo)"
+                    class="hover:bg-blue-50 transition-colors cursor-pointer border-b border-gray-100">
+                    <td class="px-6 py-4 text-center font-semibold text-gray-700">{{ veiculo.proprietario.nome }}</td>
+                    <td class="px-6 py-4 text-center">{{ veiculo.tipoVeiculo }}</td>
+                    <td class="px-6 py-4 text-center">{{ veiculo.proprietario.cpfProprietario }}</td>
+                    <td class="px-6 py-4 text-center font-mono font-bold">{{ veiculo.numeroPlaca }}</td>
+                </tr>
+                }
+            </app-tabela>
+        </div>
+    </div>
+
+    @if (veiculoSelecionado) {
+    <article
+        class="w-95 bg-[#E23C33] text-white h-screen flex flex-col shadow-2xl border-l border-white/20 animate-slide-in overflow-hidden shrink-0 transform rounded-l-2xl">
+        <div class="w-full p-8 flex flex-col h-full">
+    
+            <div class="relative flex justify-center items-center mb-10 shrink-0">
+                <h3 class="font-bold uppercase text-xs tracking-[0.2em] text-center">Editar Veículo</h3>
+                <button (click)="veiculoSelecionado = null"
+                    class="absolute right-0 hover:rotate-90 hover:scale-110 transition-transform duration-300 text-white/80 p-1 cursor-pointer">
+                    <span class="text-xl">✕</span>
+                </button>
+            </div>
+    
+            <div class="space-y-6 flex-1 overflow-y-auto pr-1 no-scrollbar">
+                <div class="flex flex-col gap-2 opacity-90">
+                    <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Proprietário</label>
+                    <input type="text" [(ngModel)]="veiculoSelecionado.proprietario.nome"
+                        class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner font-semibold focus:ring-2 focus:ring-red-300 outline-none transition-all">
+                </div>
+    
+                <div class="flex flex-col gap-2 opacity-90">
+                    <label class="text-[10px] font-black uppercase tracking-wider opacity-70">CPF do Titular</label>
+                    <input type="text" [(ngModel)]="veiculoSelecionado.proprietario.cpfProprietario"
+                        class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all">
+                </div>
+    
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2 opacity-90">
+                        <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Placa</label>
+                        <input type="text" [(ngModel)]="veiculoSelecionado.numeroPlaca"
+                            class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner font-mono font-bold focus:ring-2 focus:ring-red-300 outline-none transition-all uppercase">
+                    </div>
+                    <div class="flex flex-col gap-2 opacity-90">
+                        <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Cor</label>
+                        <input type="text" [(ngModel)]="veiculoSelecionado.cor"
+                            class="w-full bg-white text-gray-800 p-3 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all">
+                    </div>
+                </div>
+    
+                <div class="flex items-center justify-between py-6 border-y border-white/20 my-4">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-black uppercase tracking-wider">Status de Bloqueio</span>
+                        <span class="text-[10px] opacity-70 italic">
+                            {{ veiculoSelecionado.bloqueado ? 'Acesso negado ao pátio' : 'Acesso liberado' }}
+                        </span>
+                    </div>
+                
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" [checked]="veiculoSelecionado.bloqueado"
+                            (change)="bloquearVeiculo(veiculoSelecionado)">
+                
+                        <div class="w-12 h-6 bg-white/20 rounded-full peer 
+                                    peer-checked:bg-red-900 
+                                    after:content-[''] after:absolute after:top-0.5 after:left-0.5 
+                                    after:bg-white after:rounded-full after:h-5 after:w-5 
+                                    after:transition-all peer-checked:after:translate-x-6 shadow-lg">
+                        </div>
+                    </label>
+                </div>
+    
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Ações</label>
+                        <button (click)="salvarEdicao()" (click)="veiculoSelecionado = null" [disabled]="!temAlteracao()" class="group flex items-center justify-center gap-2 w-full p-3 rounded-md border border-white/20 transition-all duration-300 font-bold text-xs uppercase tracking-widest shadow-lg
+                            enabled:bg-white enabled:text-[#E23C33] enabled:cursor-pointer enabled:active:scale-95
+                            disabled:bg-white/10 disabled:text-white/40 disabled:cursor-not-allowed">
+                            <span class="text-lg">✓</span>
+                            Salvar
+                        </button>
+                    </div>
+    
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Segurança</label>
+                        <button (click)="excluirVeiculo(veiculoSelecionado.idVeiculo)" (click)="veiculoSelecionado = null"
+                            class="group flex items-center justify-center gap-2 w-full bg-black/10 hover:bg-white text-white/90 hover:text-red-700 p-3 rounded-md border border-white/10 transition-all duration-300 font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
+                            <span class="text-lg">🗑</span>
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </article>
+    }
+</div>

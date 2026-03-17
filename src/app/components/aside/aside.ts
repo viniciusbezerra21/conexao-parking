@@ -27,4 +27,8 @@ export class Aside {
     this.router.navigate(['/cadastro-veiculo']);
   }
 
+  irParaTabelaDeVeiculo() {
+    this.router.navigate(['/tabela-de-veiculos']);
+  }
+
 }

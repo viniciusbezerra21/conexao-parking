@@ -22,10 +22,17 @@
             <span class="text-sm font-medium">Liberar saída</span>
         </button>
 
+        <button (click)="irParaTabelaDeVeiculo()"
+            class="flex items-center gap-4 px-7 py-3 text-white/90 hover:bg-[#a62323] hover:text-white transition-all border-l-4 border-transparent hover:border-white">
+            <img src="/listar-veiculo-image.svg" class="w-5 h-5">
+            <span class="text-sm font-medium">Tabela de veículos</span>
+        </button>
+        
         <button (click)="irAoCadastroDeVeiculo()"
             class="flex items-center gap-4 px-7 py-3 text-white/90 hover:bg-[#a62323] hover:text-white transition-all border-l-4 border-transparent hover:border-white">
             <img src="/adicionar-veiculo.svg" class="w-5 h-5">
             <span class="text-sm font-medium">Adicionar veículo</span>
         </button>
+
     </nav>
 </aside>

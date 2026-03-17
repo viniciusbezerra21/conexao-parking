@@ -6,6 +6,7 @@ import { Layout } from './components/layout/layout';
 import { LiberarEntrada } from './pages/liberar-entrada/liberar-entrada';
 import { LiberarSaida } from './pages/liberar-saida/liberar-saida';
 import { CadastrarVeiculo } from './pages/cadastrar-veiculo/cadastrar-veiculo';
+import { TabelaDeVeiculos } from './pages/tabela-de-veiculos/tabela-de-veiculos';
 
 export const routes: Routes = [
     { path: '', component: PaginaLogin },
@@ -20,6 +21,7 @@ export const routes: Routes = [
             { path: 'liberar-entrada', component: LiberarEntrada },
             { path: 'liberar-saida', component: LiberarSaida },
             { path: 'cadastro-veiculo', component: CadastrarVeiculo },
+            { path: 'tabela-de-veiculos', component: TabelaDeVeiculos  }
         ]
     }
 ];
