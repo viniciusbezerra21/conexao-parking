@@ -21,9 +21,9 @@
                 <td class="px-6 py-4 text-center font-mono">{{ mov.numeroPlaca }}</td>
                 <td class="px-6 py-4 text-center font-mono">
                     @if (mov.dataSaida) {
-                    <span>Saída - {{ mov.dataSaida | date: 'HH:mm' }}</span>
+                        Ultima Saída - {{ mov.dataSaida | date: 'HH:mm' }}
                     } @else {
-                    <span>Status - No Pátio</span>
+                        No Pátio
                     }
                 </td>
             </tr>
