@@ -3,11 +3,12 @@ import { SearchBar } from '../../shared/search-bar/search-bar';
 import { LiberarVeiculoCard } from '../../shared/liberar-veiculo-card/liberar-veiculo-card';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
 import { Movimentacao } from '../../models/movimentacao';
+import { Toast } from "../../shared/toast/toast";
 
 
 @Component({
   selector: 'app-liberar-saida',
-  imports: [SearchBar, LiberarVeiculoCard],
+  imports: [SearchBar, LiberarVeiculoCard, Toast],
   templateUrl: './liberar-saida.html',
   styleUrl: './liberar-saida.css',
 })

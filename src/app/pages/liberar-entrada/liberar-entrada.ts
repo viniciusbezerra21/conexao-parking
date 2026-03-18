@@ -4,11 +4,12 @@ import { LiberarVeiculoCard } from "../../shared/liberar-veiculo-card/liberar-ve
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { Veiculo } from '../../models/veiculo';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
+import { ToastType, Toast } from '../../shared/toast/toast';
 
 @Component({
   selector: 'app-liberar-entrada',
   standalone: true,
-  imports: [SearchBar, LiberarVeiculoCard],
+  imports: [SearchBar, LiberarVeiculoCard, Toast],
   templateUrl: './liberar-entrada.html',
   styleUrl: './liberar-entrada.css',
 })
@@ -16,6 +17,9 @@ export class LiberarEntrada implements OnInit {
   private readonly listaCompleta = signal<Veiculo[]>([]);
   readonly resultados = signal<Veiculo[]>([]);
   readonly veiculoSelecionado = signal<Veiculo | null>(null);
+  readonly mostrarToast = signal(false);
+  readonly mensagemToast = signal('');
+  readonly tipoToast = signal<ToastType>('success');
 
   constructor(
     private readonly veiculoService: VeiculoService,
@@ -79,12 +83,15 @@ export class LiberarEntrada implements OnInit {
 
     this.movimentacaoService.liberarEntrada(evento.id, evento.observacao).subscribe({
       next: (res) => {
-        alert('Entrada registrada com sucesso!');
+        this.tipoToast.set('success');
+        this.mensagemToast.set('Entrada registrada com sucesso!');
+        this.mostrarToast.set(true);
+
         this.veiculoSelecionado.set(null);
       },
       error: (err) => {
-        console.error('Erro ao processar entrada na API:', err);
-        alert('Ocorreu um erro ao registrar a entrada. Verifique o console.');
+        this.tipoToast.set('error');
+        this.mensagemToast.set('Erro ao registrar entrada na API. Verifique o console.');
       }
     });
   }

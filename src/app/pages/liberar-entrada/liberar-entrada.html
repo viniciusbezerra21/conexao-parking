@@ -13,7 +13,7 @@
                 class="px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none flex justify-between items-center">
                 <div class="flex flex-col">
                     <span class="font-medium text-gray-800">{{ v.proprietario.nome }}</span>
-                    <span class="text-xs text-gray-500">{{ v.proprietario.cpfProprietario }}</span>
+                    <span class="text-xs text-gray-500" mask="000.000.000-00">{{ v.proprietario.cpfProprietario }}</span>
                 </div>
                 <span class="text-sm font-mono font-bold text-[#CC2A2A] bg-red-50 px-2 py-1 rounded">
                     {{ v.numeroPlaca }}
@@ -34,4 +34,11 @@
             </div>
         </app-liberar-veiculo-card>
     </div>
+
+    <div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
+        <app-toast [mensagem]="mensagemToast()" [visivel]="mostrarToast()" [tipo]="tipoToast()"
+            (fechar)="mostrarToast.set(false)">
+        </app-toast>
+    </div>
+
 </div>
