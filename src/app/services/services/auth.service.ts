@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { LoginResponse } from '../../models/loginResponse';
 import { CadastroResponse } from '../../models/user';
 
@@ -37,4 +37,10 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
   } 
+
+  checkEmailExistente(emailCorporativo: string) {
+    return this.httpClient.get<boolean>(`http://localhost:8080/usuario/check-email`, {
+      params: { emailCorporativo }
+    }); 
+  }
 }

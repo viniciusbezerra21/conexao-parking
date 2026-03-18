@@ -3,10 +3,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { StatusVeiculo, TipoVeiculo } from '../../models/veiculo';
 import { Router } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastrar-veiculo',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './cadastrar-veiculo.html',
   styleUrl: './cadastrar-veiculo.css',
 })

@@ -1,25 +1,58 @@
 <main
     class="flex items-center justify-center min-h-screen bg-[url('/background-image.png')] bg-cover bg-position-[70%_center] bg-no-repeat">
     <app-login-form [form]="loginForm">
-
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
 
             <div class="flex flex-col gap-2">
-                <label for="emailCorporativo" class="text-xs font-semibold text-gray-500 uppercase tracking-wider">E-mail corporativo:</label>
+                <label for="emailCorporativo" class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    E-mail corporativo:
+                </label>
                 <input type="email" id="emailCorporativo" formControlName="emailCorporativo"
-                    class="w-full p-4 h-12 bg-amber-50 rounded outline-none">
+                    class="w-full px-4 h-12 bg-white border border-gray-200 rounded-lg outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
             </div>
 
             <div class="flex flex-col gap-2">
-                <label for="senha" class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Senha:</label>
-                <input type="password" id="senha" formControlName="senha"
-                    class="w-full p-4 h-12 bg-amber-50 rounded outline-none">
-                <span><a class="text-blue-500 tracking-wider hover:underline hover:text-red-900 duration-150  cursor-pointer"
+                <div class="flex flex-col gap-1">
+                    <label for="senha"
+                        class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Senha</label>
+                    <div class="relative w-full">
+                        <input [type]="mostrarSenha ? 'text' : 'password'" id="senha" formControlName="senha"
+                            class="w-full px-4 h-12 bg-white border border-gray-200 rounded-lg outline-none transition-all pr-12 focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                        <button type="button" (click)="mostrarSenha = !mostrarSenha"
+                            class="absolute right-3 top-0 bottom-0 my-auto h-6 w-6 z-10 opacity-60 hover:opacity-100 transition-opacity">
+                            <img [src]="mostrarSenha ? 'https://cdn.iconscout.com/icon/premium/png-256-thumb/ocultar-5156380-4314205.png?f=webp&w=128' : 'https://cdn.iconscout.com/icon/premium/png-256-thumb/mostrar-senha-icon-svg-download-png-12871286.png?f=webp&w=128'"
+                                alt="Alternar">
+                        </button>
+                    </div>
+                </div>
+
+                @if (mensagemErro || (loginForm.get('emailCorporativo')?.errors?.['usuarioNaoEncontrado'] &&
+                loginForm.get('emailCorporativo')?.touched)) {
+                <div class="p-2 bg-red-50 border-l-4 border-red-500 rounded-r-md animate-fade-in">
+                    <div class="flex items-start gap-2">
+                        <span class="text-[11px] leading-tight text-red-700 font-medium">
+                           {{ mensagemErro || '* Este e-mail corporativo não foi cadastrado.'}} 
+                        </span>
+                    </div>
+                </div>
+                }
+
+                <span><a class="text-blue-500 tracking-wider hover:underline hover:text-red-900 duration-150 cursor-pointer text-xs"
                         (click)="irParaCadastro()">Não possuo cadastro.</a></span>
             </div>
 
-            <app-botao-login type="submit">Entrar</app-botao-login>
-        </form>
+            @if (loginForm.pending || carregando) {
+            <div class="h-8 flex items-center justify-center">
+                <app-loading-spinner />
+            </div>
+        }
 
+            <app-botao-login type="submit"
+                [attr.disabled]="(loginForm.invalid || loginForm.pending || carregando) ? true : null"
+                [class.opacity-50]="loginForm.invalid || loginForm.pending || carregando">
+                {{ carregando ? 'Acessando...' : 'Entrar' }}
+            </app-botao-login>
+        </form>
     </app-login-form>
 </main>
