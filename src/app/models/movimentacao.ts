@@ -1,8 +1,10 @@
-import { Veiculo, TipoVeiculo } from './veiculo';
+import { Veiculo } from './veiculo';
 
 export interface Movimentacao {
     id: number;
     numeroPlaca: string;
+    cor: string;
+    tipoVeiculo: string;
     nomeProprietario: string; 
     cpfProprietario: string;  
     dataEntrada: string;

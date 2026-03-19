@@ -1,4 +1,10 @@
 <div class="flex flex-row h-screen overflow-hidden bg-gray-50">
+    @if (isLoadingInicial()) {
+    <div class="fixed inset-0 bg-white z-60 flex flex-col items-center justify-center">
+        <div class="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+        <span class="mt-4 text-xs text-red-500 font-bold uppercase tracking-[0.2em]">Conexão Parking</span>
+    </div>
+    }
 
     <div class="flex-1 flex flex-col gap-6 p-6 transition-all duration-300 ease-in-out h-full min-w-0">
         <div class="flex justify-between items-center shrink-0">

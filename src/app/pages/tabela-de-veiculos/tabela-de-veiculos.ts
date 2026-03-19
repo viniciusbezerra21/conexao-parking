@@ -1,15 +1,16 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Tabela } from '../../shared/tabela/tabela';
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { Veiculo } from '../../models/veiculo';
+import { Toast, ToastType } from "../../shared/toast/toast";
 
 @Component({
   selector: 'app-tabela-de-veiculos',
   standalone: true,
-  imports: [SearchBar, Tabela, FormsModule, CommonModule],
+  imports: [SearchBar, Tabela, FormsModule, CommonModule, Toast],
   templateUrl: './tabela-de-veiculos.html',
   styleUrl: './tabela-de-veiculos.css',
 })
@@ -19,6 +20,13 @@ export class TabelaDeVeiculos implements OnInit {
   todosVeiculos: Veiculo[] = [];
   veiculoSelecionado: Veiculo | null = null;
   veiculoOriginal: any = null;
+  readonly mostrarToast = signal(false);
+  readonly mensagemToast = signal('');
+  readonly tipoToast = signal<ToastType>('success');
+
+  readonly isLoadingInicial = signal(false);
+  readonly isLoadingBusca = signal(false);
+  readonly isLoadingRegistro = signal(false);
 
   totalPages = 0;
   currentPage = 0;
@@ -40,6 +48,7 @@ export class TabelaDeVeiculos implements OnInit {
   }
 
   carregarVeiculos() {
+    this.isLoadingBusca.set(true);
     this.veiculoService.obterVeiculo(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         this.veiculos = response.content;
@@ -47,9 +56,14 @@ export class TabelaDeVeiculos implements OnInit {
         this.totalPages = response.totalPages;
         this.currentPage = response.number;
         this.cdr.detectChanges();
+
+        this.isLoadingBusca.set(false);
         console.log('Veiculos Carregados', this.veiculos);
       },
-      error: (err) => console.error('Erro ao buscar veículos:', err),
+      error: (err) => {
+        console.error('Erro ao buscar veiculos:', err);
+        this.isLoadingBusca.set(false);
+      },
     });
   }
 
@@ -106,17 +120,20 @@ export class TabelaDeVeiculos implements OnInit {
     
       this.veiculoService.editarVeiculo(this.veiculoSelecionado).subscribe({
         next: (res) => {
-          // Atualiza a referência original com o que voltou do servidor
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Veículo editado com sucesso!');
+          this.tipoToast.set('success');
+
+          this.carregarVeiculos();  
+
           this.veiculoOriginal = JSON.parse(JSON.stringify(res));
           this.carregarTodosParaBusca();
           this.veiculoSelecionado = null;
-
-          // Opcional: Feedback visual de sucesso
-          console.log('Veículo editado com sucesso!');
         },
         error: (err) => {
-          console.error('Erro ao editar veículo:', err);
-          alert('Não foi possível salvar as alterações.');
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Erro ao editar veículo. Verifique o console.');
+          this.tipoToast.set('error');
         }
       });
     }
@@ -125,6 +142,10 @@ export class TabelaDeVeiculos implements OnInit {
   excluirVeiculo(idVeiculo: number) {
     this.veiculoService.deletarVeiculo(idVeiculo).subscribe({
       next: () => {
+        this.mostrarToast.set(true);
+        this.mensagemToast.set('Veiculo excluido!');
+        this.tipoToast.set('warning');
+
         this.carregarVeiculos();
         this.carregarTodosParaBusca();
       }
@@ -136,14 +157,30 @@ export class TabelaDeVeiculos implements OnInit {
 
     this.veiculoService.alternarBloqueio(veiculo.idVeiculo, novoStatus).subscribe({
       next: (veiculoAtualizado) => {
+        this.mostrarToast.set(true);
+        this.mensagemToast.set(`Veiculo ${novoStatus ? 'bloqueado' : 'desbloqueado'} com sucesso!`);
+        this.tipoToast.set('warning');
+
         veiculo.bloqueado = veiculoAtualizado.bloqueado;
         this.carregarVeiculos();
         this.carregarTodosParaBusca();
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Erro ao processar bloqueio na API:', err);
-        alert('Ocorreu um erro ao processar o bloqueio. Verifique o console.');
+        if (err.status === 403 || err.status === 401) {
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Veiculo bloqueado!' + err.message);
+          this.tipoToast.set('error');
+        } else if (err.status === 404) {
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Veiculo nao encontrado.' + err.message);
+          this.tipoToast.set('error');
+        } else {
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Erro ao registrar veiculo na API.' + err.message);
+          this.tipoToast.set('error');
+        }
+
         this.cdr.detectChanges();
       }
     })

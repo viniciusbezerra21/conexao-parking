@@ -5,6 +5,7 @@ import { VeiculoService } from '../../services/services/veiculo.service';
 import { Veiculo } from '../../models/veiculo';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
 import { ToastType, Toast } from '../../shared/toast/toast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-liberar-entrada',
@@ -21,9 +22,13 @@ export class LiberarEntrada implements OnInit {
   readonly mensagemToast = signal('');
   readonly tipoToast = signal<ToastType>('success');
 
+  readonly isLoadingInicial = signal(false);
+  readonly isLoadingBusca = signal(false);
+  readonly isLoadingRegistro = signal(false);
+
   constructor(
     private readonly veiculoService: VeiculoService,
-    private readonly movimentacaoService: MovimentacaoService
+    private readonly movimentacaoService: MovimentacaoService,
   ) { }
 
   ngOnInit(): void {
@@ -31,13 +36,18 @@ export class LiberarEntrada implements OnInit {
   }
 
   private carregarVeiculos(): void {
+    this.isLoadingInicial.set(true);
     this.veiculoService.obterTodosParaBusca().subscribe({
+      
       next: (res) => {
-
+        this.isLoadingInicial.set(false);
         this.listaCompleta.set(res.content || res);
         console.log('Veículos sincronizados para busca');
       },
-      error: (err) => console.error('Erro ao carregar veículos:', err)
+      error: (err) => {
+        this.isLoadingInicial.set(false);
+        console.error('Erro ao buscar veículos:', err);
+      }
     });
   }
 
@@ -90,9 +100,35 @@ export class LiberarEntrada implements OnInit {
         this.veiculoSelecionado.set(null);
       },
       error: (err) => {
-        this.tipoToast.set('error');
-        this.mensagemToast.set('Erro ao registrar entrada na API. Verifique o console.');
+        if (err.status === 403 || err.status === 401) {
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Veiculo bloqueado.' + err.message);
+          this.tipoToast.set('error');
+        } else if (err.status === 404) {
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Veiculo não encontrado.'  + err.message);
+          this.tipoToast.set('error');
+        } else {
+          this.mostrarToast.set(true);
+          this.mensagemToast.set('Este veiculo já possui uma entrada.' + err.message);
+          this.tipoToast.set('error');
+        }
       }
     });
+  }
+
+  
+
+  limparVeiculoSelecionado(): void {
+    this.isLoadingDetalhamento.set(false);
+    this.isLoadingRegistro.set(false);
+    
+
+    this.veiculoSelecionado.set(null);
+    this.resultados.set([]);
+
+    this.tipoToast.set('info');
+    this.mensagemToast.set('Seleção cancelada.');
+    this.mostrarToast.set(true);
   }
 }

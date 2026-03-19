@@ -1,19 +1,34 @@
 <div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
 
+    @if (isLoadingInicial()) {
+    <div class="fixed inset-0 bg-white z-60 flex flex-col items-center justify-center">
+        <div class="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+        <span class="mt-4 text-xs text-red-500 font-bold uppercase tracking-[0.2em]">Conexão Parking</span>
+    </div>
+    }
+
+
     <div class="w-204 mb-4 relative">
         <app-search-bar containerClass="w-full h-12" placeholder="Buscar: proprietário, cpf ou placa..."
             (aoPesquisar)="filtrar($event)">
         </app-search-bar>
 
         @if (resultados().length > 0) {
+
         <div
             class="absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-2xl mt-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            @if (isLoadingBusca()) {
+            <div class="p-4 flex justify-center border-b border-gray-100">
+                <div class="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            }
             @for (v of resultados(); track v.idVeiculo) {
             <div (click)="selecionarVeiculo(v)"
                 class="px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none flex justify-between items-center">
                 <div class="flex flex-col">
                     <span class="font-medium text-gray-800">{{ v.proprietario.nome }}</span>
-                    <span class="text-xs text-gray-500" mask="000.000.000-00">{{ v.proprietario.cpfProprietario }}</span>
+                    <span class="text-xs text-gray-500" mask="000.000.000-00">{{ v.proprietario.cpfProprietario
+                        }}</span>
                 </div>
                 <span class="text-sm font-mono font-bold text-[#CC2A2A] bg-red-50 px-2 py-1 rounded">
                     {{ v.numeroPlaca }}
@@ -26,12 +41,19 @@
 
     <div class="w-204">
         <app-liberar-veiculo-card [veiculo]="veiculoSelecionado()" [idReferencia]="veiculoSelecionado()?.idVeiculo"
-            (confirmarAcao)="registrarEntrada($event)">
-
+            [isLoading]="isLoadingRegistro()" (confirmarAcao)="registrarEntrada($event)"
+            (cancelarSelecao)="limparVeiculoSelecionado()">
+            @if (isLoadingDetalhamento()) {
+            <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-50/50 z-10">
+                <div class="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-[10px] text-red-500 font-bold mt-2 uppercase">Buscando Detalhes...</p>
+            </div>
+            } @else {
             <div class="flex flex-row gap-1 items-center">
                 <img src="/seta-direita.svg" class="w-4 h-4" alt="Ícone">
                 <span>Liberar entrada</span>
             </div>
+            }
         </app-liberar-veiculo-card>
     </div>
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Tabela } from '../../shared/tabela/tabela';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
@@ -27,6 +27,10 @@ export class Dashboard implements OnInit {
   totalPages = 0;
   currentPage = 0;
   pageSize = 10;
+
+  readonly isLoadingInicial = signal(false);
+  readonly isLoadingBusca = signal(false);
+  readonly isLoadingRegistro = signal(false);
   
   private mapaTipoVeiculo = new Map<string, string>();
 
@@ -36,6 +40,7 @@ export class Dashboard implements OnInit {
   }
 
   carregarMovimentacoes() {
+    this.isLoadingBusca.set(true);
     this.movimentacaoService.listar(this.currentPage, this.pageSize).subscribe({
       next: response => {
         this.movimentacoes = response.content;
@@ -44,8 +49,14 @@ export class Dashboard implements OnInit {
         this.totalPages = response.totalPages;
         this.currentPage = response.number;
         this.cdr.detectChanges();
+
+        this.isLoadingBusca.set(false);
       },
-      error: err => console.error('Erro ao carregar movimentações:', err)
+      
+      error: err => {
+        console.error('Erro ao buscar movimentações:', err);
+        this.isLoadingBusca.set(false)
+      }
     });
   }
 

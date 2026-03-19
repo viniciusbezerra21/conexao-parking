@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, EventEmitter, input, output, Output } from '@angular/core';
 import { Veiculo } from '../../models/veiculo';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -15,6 +15,8 @@ export class LiberarVeiculoCard {
   idReferencia = input<number | null | undefined>(null);
 
   @Output() confirmarAcao = new EventEmitter<{ id: number, observacao: string | null }>();
+  isLoading = input<boolean>(false);
+  cancelarSelecao = output<void>();
 
   observacaoControl = new FormControl('');
 
@@ -32,4 +34,10 @@ export class LiberarVeiculoCard {
       console.error("DEBUG: Não foi possível identificar o ID. Objeto:", v);
     }
   }
+
+  aoCancelar() {
+    this.cancelarSelecao.emit();
+  }
+
+  
 }

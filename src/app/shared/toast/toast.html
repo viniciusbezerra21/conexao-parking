@@ -1,25 +1,31 @@
 @if (visivel()) {
-<div class="fixed bottom-5 right-5 z-50 animate-in slide-in-from-right-full duration-300">
-    <div [ngClass]="config().containerClasses">
+<div class="fixed bottom-8 right-8 z-50">
+    <div [ngClass]="config().containerClasses" class="relative flex items-center gap-4 bg-white px-8 py-5 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] 
+                border-l-8 min-w-95 max-w-md overflow-hidden animate-toast-in">
 
-        <div [ngClass]="config().iconBgClasses">
-            <svg xmlns="http://www.w3.org/2000/svg" [ngClass]="config().iconClasses" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="config().iconPath" />
+        <div [ngClass]="config().iconBgClasses" class="p-3 rounded-2xl">
+            <svg xmlns="http://www.w3.org/2000/svg" [ngClass]="config().iconClasses" class="h-7 w-7" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" [attr.d]="config().iconPath" />
             </svg>
         </div>
 
-        <div>
-            <p class="text-sm font-bold text-gray-800">{{ config().title }}</p>
-            <p class="text-xs text-gray-500">{{ mensagem() }}</p>
+        <div class="flex-1">
+            <p class="text-base font-black text-gray-900 leading-tight">{{ config().title }}</p>
+            <p class="text-sm font-medium text-gray-500 mt-0.5">{{ mensagem() }}</p>
         </div>
 
-        <button (click)="fechar.emit()" class="ml-auto text-gray-400 hover:text-gray-600 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+        <button (click)="fechar.emit()" class="ml-4 p-1 text-gray-400 hover:text-gray-900 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
+
+        <div class="absolute bottom-0 left-0 w-full h-1.5 bg-gray-100">
+            <div [ngClass]="config().progressClasses" class="h-full animate-progress-shrink origin-left">
+            </div>
+        </div>
     </div>
 </div>
 }
