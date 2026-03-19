@@ -6,7 +6,8 @@ export interface Veiculo {
     numeroPlaca: string,
     cor: string,
     bloqueado: boolean
-    visitante?: boolean
+    visitante?: boolean,
+    empresa: string
 }
 
 export interface Proprietario {
@@ -17,7 +18,8 @@ export interface Proprietario {
 
 export enum TipoVeiculo {
     MOTO = 'Moto',
-    CARRO = 'Carro'
+    CARRO = 'Carro',
+    CAMINHÃO = 'Caminhão',
 }
 
 export enum StatusVeiculo {

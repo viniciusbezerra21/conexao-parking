@@ -17,6 +17,8 @@ export class CadastrarVeiculo {
   private veiculoService = inject(VeiculoService);
   private router = inject(Router);
 
+  tiposDeVeiculo = Object.values(TipoVeiculo);
+
   readonly mostrarToast = signal(false);
   readonly mensagemToast = signal('');
   readonly tipoToast = signal<ToastType>('success');
@@ -26,12 +28,13 @@ export class CadastrarVeiculo {
     cor: ['', [Validators.required]],
     visitante: [false],
     bloqueado: [false],
-    tipoVeiculo: [TipoVeiculo , [Validators.required]],
+    tipoVeiculo: [null , [Validators.required]],
     statusVeiculo: [StatusVeiculo.ATIVO, [Validators.required]],
     proprietario: this.fb.group({
       nome: ['', [Validators.required]],
       cpfProprietario: ['', [Validators.required]]
-    })
+    }),
+    empresa: ['']
   })
 
   private resetForm() {
@@ -45,12 +48,29 @@ export class CadastrarVeiculo {
       proprietario: {
         nome: '',
         cpfProprietario: '',
-      }
+      },
+      empresa: ''
     });
-
     this.router.navigate(['/dashboard']);
   }
 
+  constructor() {
+    this.veiculoForm.get('tipoVeiculo')?.valueChanges.subscribe(tipo => {
+      const empresaControl = this.veiculoForm.get('empresa');
+
+      if (tipo === TipoVeiculo.CAMINHÃO) {
+        empresaControl?.setValidators([Validators.required]);
+      } else {
+        empresaControl?.clearValidators();
+        empresaControl?.setValue('');
+      }
+      empresaControl?.updateValueAndValidity();
+    });
+  }
+
+  get exibirCampoEmpresa(): boolean {
+    return this.veiculoForm.get('tipoVeiculo')?.value === TipoVeiculo.CAMINHÃO;
+  }
 
   onSubmit() {
     if (this.veiculoForm.valid) {
@@ -73,7 +93,8 @@ export class CadastrarVeiculo {
             proprietario: {
               nome: '',
               cpfProprietario: '',
-            }
+            },
+            empresa: ''
           });
 
           this.veiculoService.notificarNovoCadastro();
