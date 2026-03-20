@@ -153,10 +153,21 @@ export class LiberarSaida implements OnInit {
       },
       error: (err) => {
         this.isLoadingRegistro.set(false);
-        const msg = err.status === 403 || err.status === 401
-          ? 'Veículo bloqueado!'
-          : 'Erro ao registrar saída na API.';
-        this.exibirNotificacao(msg, 'error');
+        let mensagem = 'Ocorreu um erro inesperado.'; 
+
+        if (err.status === 401 || err.status === 403) {
+          mensagem = 'Veículo bloqueado ou sem permissão.';
+        } else if (err.status === 404) {
+          mensagem = 'Veículo não encontrado.';
+        } else if (err.status === 409) { 
+          mensagem = 'Este veículo já possui uma entrada.';
+        }
+
+        
+        this.mensagemToast.set(mensagem);
+        this.tipoToast.set('error');
+        this.mostrarToast.set(true);
+        console.error(err);
       }
     });
   }

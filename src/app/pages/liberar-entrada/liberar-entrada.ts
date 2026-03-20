@@ -85,7 +85,7 @@ export class LiberarEntrada implements OnInit {
   }
 
   registrarEntrada(evento: { id: number, observacao: string | null }): void {
-
+    this.isLoadingRegistro.set(true);
     if (!evento.id) {
       console.warn('Tentativa de registro sem ID de veículo.');
       return;
@@ -96,26 +96,27 @@ export class LiberarEntrada implements OnInit {
         this.tipoToast.set('success');
         this.mensagemToast.set('Entrada registrada com sucesso!');
         this.mostrarToast.set(true);
+        this.isLoadingRegistro.set(false);
 
         this.veiculoSelecionado.set(null);
       },
       error: (err) => {
-        if (err.status === 403 || err.status === 401) {
-          this.mostrarToast.set(true);
-          this.mensagemToast.set('Veiculo bloqueado.');
-          console.error(err);
-          this.tipoToast.set('error');
+        let mensagem = 'Ocorreu um erro inesperado.'; 
+        this.isLoadingRegistro.set(false);
+
+        if (err.status === 401 || err.status === 403) {
+          mensagem = 'Veículo bloqueado ou sem permissão.';
         } else if (err.status === 404) {
-          this.mostrarToast.set(true);
-          this.mensagemToast.set('Veiculo não encontrado.');
-          console.error(err);
-          this.tipoToast.set('error');
-        } else {
-          this.mostrarToast.set(true);
-          this.mensagemToast.set('Este veiculo já possui uma entrada.');
-          console.error(err);
-          this.tipoToast.set('error');
+          mensagem = 'Veículo não encontrado.';
+        } else if (err.status === 409) { 
+          mensagem = 'Este veículo já possui uma entrada.';
         }
+
+        
+        this.mensagemToast.set(mensagem);
+        this.tipoToast.set('error');
+        this.mostrarToast.set(true);
+        console.error(err);
       }
     });
   }
