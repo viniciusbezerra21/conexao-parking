@@ -3,7 +3,7 @@ import { SearchBar } from '../../shared/search-bar/search-bar';
 import { LiberarVeiculoCard } from '../../shared/liberar-veiculo-card/liberar-veiculo-card';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
 import { Movimentacao } from '../../models/movimentacao';
-import { TipoVeiculo } from '../../models/veiculo';
+import { TipoVeiculo, Veiculo } from '../../models/veiculo';
 import { Toast, ToastType } from "../../shared/toast/toast";
 import { VeiculoService } from '../../services/services/veiculo.service';
 
@@ -20,6 +20,7 @@ export class LiberarSaida implements OnInit {
   resultados = signal<Movimentacao[]>([]);
 
   private mapaTipoVeiculo = new Map<string, string>();
+  private mapaEmpresaVeiculo = new Map<string, string>();
 
   readonly mostrarToast = signal(false);
   readonly mensagemToast = signal('');
@@ -69,11 +70,14 @@ export class LiberarSaida implements OnInit {
       next: res => {
         res.content.forEach(v => {
           this.mapaTipoVeiculo.set(v.numeroPlaca, v.tipoVeiculo);
+          this.mapaEmpresaVeiculo.set(v.numeroPlaca, v.empresa); 
         });
         this.cdr.detectChanges();
       }
     });
   }
+
+
 
   filtrar(termo: string): void {
     if (!termo || termo.length < 3) {
@@ -110,6 +114,9 @@ export class LiberarSaida implements OnInit {
     return this.mapaTipoVeiculo.get(placa) || 'N/A';
   }
 
+  obterEmpresa(placa: string): string {
+    return this.mapaEmpresaVeiculo.get(placa) || 'N/A';
+  }
 
   veiculoParaCard = computed(() => {
     const m = this.movimentacaoSelecionada();
@@ -123,7 +130,8 @@ export class LiberarSaida implements OnInit {
       proprietario: {
         nome: m.nomeProprietario,
         cpfProprietario: m.cpfProprietario
-      }
+      },
+      empresa: this.obterEmpresa(m.numeroPlaca)
     };
   });
   

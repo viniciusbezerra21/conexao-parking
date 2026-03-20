@@ -74,9 +74,9 @@ export class CadastrarVeiculo {
   }
 
   onSubmit() {
+    this.isLoading.set(true);
     if (this.veiculoForm.valid) {
       const dados = this.veiculoForm.value as any;
-      this.isLoading.set(true);
 
       if (dados.tipoVeiculo !== TipoVeiculo.CAMINHAO) {
         if (dados.visitante) {
