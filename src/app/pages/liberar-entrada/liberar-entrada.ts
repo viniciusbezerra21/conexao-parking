@@ -5,7 +5,7 @@ import { VeiculoService } from '../../services/services/veiculo.service';
 import { Veiculo } from '../../models/veiculo';
 import { MovimentacaoService } from '../../services/services/movimentacao.service';
 import { ToastType, Toast } from '../../shared/toast/toast';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-liberar-entrada',
@@ -102,15 +102,18 @@ export class LiberarEntrada implements OnInit {
       error: (err) => {
         if (err.status === 403 || err.status === 401) {
           this.mostrarToast.set(true);
-          this.mensagemToast.set('Veiculo bloqueado.' + err.message);
+          this.mensagemToast.set('Veiculo bloqueado.');
+          console.error(err);
           this.tipoToast.set('error');
         } else if (err.status === 404) {
           this.mostrarToast.set(true);
-          this.mensagemToast.set('Veiculo não encontrado.'  + err.message);
+          this.mensagemToast.set('Veiculo não encontrado.');
+          console.error(err);
           this.tipoToast.set('error');
         } else {
           this.mostrarToast.set(true);
-          this.mensagemToast.set('Este veiculo já possui uma entrada.' + err.message);
+          this.mensagemToast.set('Este veiculo já possui uma entrada.');
+          console.error(err);
           this.tipoToast.set('error');
         }
       }

@@ -8,6 +8,7 @@ export interface Movimentacao {
     nomeProprietario: string; 
     cpfProprietario: string;  
     dataEntrada: string;
+    empresa: string;
     dataSaida: string | null;
     observacaoEntrada: string | null;
     observacaoSaida: string | null;

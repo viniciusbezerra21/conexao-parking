@@ -19,7 +19,7 @@ export interface Proprietario {
 export enum TipoVeiculo {
     MOTO = 'Moto',
     CARRO = 'Carro',
-    CAMINHÃO = 'Caminhão',
+    CAMINHAO = 'Caminhão',
 }
 
 export enum StatusVeiculo {

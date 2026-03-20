@@ -128,6 +128,7 @@ export class TabelaDeVeiculos implements OnInit {
 
           this.veiculoOriginal = JSON.parse(JSON.stringify(res));
           this.carregarTodosParaBusca();
+          this.cdr.detectChanges();
           this.veiculoSelecionado = null;
         },
         error: (err) => {
