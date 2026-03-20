@@ -1,59 +1,120 @@
-# ConexaoParking
+# 🚗 Conexão Parking - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+## 🇧🇷 Descrição
 
-## Development server
+Este projeto foi gerado utilizando o **Angular CLI** versão 21.1.2. Ele serve como a interface principal para o sistema de gerenciamento de estacionamentos **Conexão Parking**, focado em uma experiência de usuário reativa, moderna e de alta performance.
 
-To start a local development server, run:
+---
+
+## 🇺🇸 Description
+
+This project was generated using **Angular CLI** version 21.1.2. It serves as the main interface for the **Conexão Parking** system, focused on a reactive, modern, and high-performance user experience.
+
+---
+
+## 🎨 Identidade Visual e UX | UI/UX Design
+
+* **PT-BR:** Design criado no Figma com foco em usabilidade e estética profissional
+
+* **EN:** Designed in Figma focusing on usability and a professional look
+
+* **Paleta / Palette:** Tons de vermelho e branco
+
+* **Interface:** Dashboard limpo com foco em controle de fluxo e tabelas operacionais
+
+---
+
+## 🛠️ Tecnologias | Technologies
+
+* Angular 21.1.2 (Standalone Architecture)
+* Reactive Forms
+* ngx-mask
+* Vitest
+
+---
+
+## 🏗️ Arquitetura | Architecture
+
+* **Backend (API):** Java 17 + Spring Boot
+  👉 (https://github.com/viniciusbezerra21/api-conexao-parking)
+
+---
+
+## 🚀 Como rodar | Getting Started
+
+### Pré-requisitos | Requirements
+
+* Node.js (LTS)
+* npm
+
+### Instalar dependências | Install dependencies
+
+```bash
+npm install
+```
+
+### Rodar o projeto | Run project
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Acesse / Access: http://localhost:4200/
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## ⚙️ Comandos Úteis | Useful Commands
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Build de produção | Production build
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Rodar testes | Run tests
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Gerar componente | Generate component
 
 ```bash
-ng e2e
+ng generate component nome-do-componente
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## ⚠️ Configuração Crítica: ngx-mask | Critical Configuration
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Arquivo / File: `app.config.ts`
+
+```ts
+import { provideNgxMask } from 'ngx-mask';
+
+export const appConfig = {
+  providers: [
+    provideNgxMask()
+  ]
+};
+```
+
+Importe também `NgxMaskDirective` nos componentes onde utilizar máscaras.
+
+Also import `NgxMaskDirective` in components where masks are used.
+
+---
+
+## ✨ Funcionalidades | Features
+
+* ✅ Dashboard em tempo real | Real-time dashboard
+* 🚫 Gestão de bloqueios | Vehicle blocking system
+* 📝 Entrada e saída | Entry and exit control
+* 🔒 Segurança com Spring Security | Authentication with Spring Security
+
+---
+
+## 👨‍💻 Autor | Author
+
+**Vinicius Bezerra**
+Software Developer & Student
