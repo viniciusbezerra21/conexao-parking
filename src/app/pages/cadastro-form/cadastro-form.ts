@@ -9,7 +9,7 @@ import { LoadingSpinner } from "../../shared/loading-spinner/loading-spinner";
 
 @Component({
   selector: 'app-cadastro-form',
-  standalone: true, // Certifique-se de que está como standalone se estiver usando Angular 19+
+  standalone: true, 
   imports: [Botao, ReactiveFormsModule, LoginForm, LoadingSpinner],
   templateUrl: './cadastro-form.html',
   styleUrl: './cadastro-form.css',
@@ -95,7 +95,7 @@ export class CadastroForm implements OnInit {
 
     this.authService.cadastrar(emailCorporativo!, senha!).subscribe({
       next: () => {
-        // Após cadastrar, geralmente mandamos para o login ou dashboard
+        
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

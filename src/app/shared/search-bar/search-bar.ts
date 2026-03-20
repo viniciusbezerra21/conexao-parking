@@ -15,12 +15,11 @@ export class SearchBar {
 
   private debounceTimer: any;
 
-  // search-bar.ts
   onInput(event: Event) {
     const valor = (event.target as HTMLInputElement).value;
     clearTimeout(this.debounceTimer);
     this.debounceTimer = setTimeout(() => {
-      console.log('Emitindo busca:', valor); // <-- Verifique se isso aparece no console!
+      console.log('Emitindo busca:', valor); 
       this.aoPesquisar.emit(valor);
     }, 300);
   }
