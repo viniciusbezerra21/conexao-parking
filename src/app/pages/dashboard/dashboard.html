@@ -24,7 +24,7 @@
                 <td class="px-6 py-4 text-center">{{ mov.nomeProprietario }}</td>
                 <td class="px-6 py-4 text-center">{{ obterTipoVeiculo(mov.numeroPlaca) }}</td>
                 <td class="px-6 py-4 text-center">{{ mov.cpfProprietario }}</td>
-                <td class="px-6 py-4 text-center font-mono">{{ mov.numeroPlaca }}</td>
+                <td class="px-6 py-4 text-center font-mono uppercase">{{ mov.numeroPlaca }}</td>
                 <td class="px-6 py-4 text-center font-mono">
                     @if (mov.dataSaida) {
                         Ultima Saída - {{ mov.dataSaida | date: 'HH:mm' }}
