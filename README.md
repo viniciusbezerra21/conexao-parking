@@ -12,6 +12,13 @@ This project was generated using **Angular CLI** version 21.1.2. It serves as th
 
 ---
 
+## 🌐 Deploy (Produção) | Live Demo
+
+O projeto está disponível online através da Vercel:
+👉 **[Conexão Parking - Live Web](https://conexao-parking.vercel.app)**
+
+---
+
 ## 🎨 Identidade Visual e UX | UI/UX Design
 
 * **PT-BR:** Design criado no Figma com foco em usabilidade e estética profissional
@@ -30,6 +37,10 @@ This project was generated using **Angular CLI** version 21.1.2. It serves as th
 * Reactive Forms
 * ngx-mask
 * Vitest
+* Tailwind CSS (Styling & Responsive Design)
+* Angular Signals (State Management)
+* Lucide Icons
+* jwt-decode
 
 ---
 
@@ -111,6 +122,19 @@ Also import `NgxMaskDirective` in components where masks are used.
 * 🚫 Gestão de bloqueios | Vehicle blocking system
 * 📝 Entrada e saída | Entry and exit control
 * 🔒 Segurança com Spring Security | Authentication with Spring Security
+* 🛡️ Controle de Acesso (RBAC) | Role-Based Access Control (Admin/User)
+* ⚡ Interface Reativa com Signals | Reactive UI with Angular Signals
+* 📝 Gestão completa de veículos (CRUD) | Full Vehicle Management
+
+---
+
+### Variáveis de Ambiente | Environment Variables
+
+No arquivo `src/environments/environment.development.ts`, certifique-se de configurar a URL da API local:
+```ts
+export const environment = {
+  apiUrl: 'http://localhost:8080'
+};
 
 ---
 
