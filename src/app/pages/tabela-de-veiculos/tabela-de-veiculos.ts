@@ -6,6 +6,7 @@ import { Tabela } from '../../shared/tabela/tabela';
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { Veiculo } from '../../models/veiculo';
 import { Toast, ToastType } from "../../shared/toast/toast";
+import { AuthService } from '../../services/services/auth.service';
 
 @Component({
   selector: 'app-tabela-de-veiculos',
@@ -34,7 +35,8 @@ export class TabelaDeVeiculos implements OnInit {
 
   constructor(
     private veiculoService: VeiculoService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {

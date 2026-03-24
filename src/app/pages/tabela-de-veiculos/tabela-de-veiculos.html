@@ -19,9 +19,9 @@
                     <td class="px-6 py-4 text-center font-mono font-bold uppercase">{{ veiculo.numeroPlaca }}</td>
                     <td class="px-6 py-4 text-center font-mono">
                         @if (veiculo.bloqueado !== true) {
-                            Ativo
+                        Ativo
                         } @else {
-                            Bloqueado
+                        Bloqueado
                         }
                     </td>
                 </tr>
@@ -31,87 +31,91 @@
     </div>
 
     @if (veiculoSelecionado) {
-<article
-    class="w-95 bg-[#E23C33] text-white h-screen flex flex-col shadow-2xl border-l border-white/20 animate-slide-in overflow-hidden shrink-0 transform rounded-l-2xl">
+    <article
+        class="w-95 bg-[#E23C33] text-white h-screen flex flex-col shadow-2xl border-l border-white/20 animate-slide-in overflow-hidden shrink-0 transform rounded-l-2xl">
 
-    <div class="w-full p-6 flex flex-col h-full">
-        <div class="relative flex justify-center items-center mb-6 shrink-0">
-            <h3 class="font-bold uppercase text-[10px] tracking-[0.2em] text-center opacity-80">Editar Veículo</h3>
-            <button (click)="veiculoSelecionado = null"
-                class="absolute right-0 hover:rotate-90 hover:scale-110 transition-transform duration-300 text-white/80 p-1 cursor-pointer">
-                <span class="text-lg">✕</span>
-            </button>
-        </div>
-
-        <div class="space-y-4 flex-1 overflow-y-auto pr-1 custom-scrollbar">
-
-            <div class="flex flex-col gap-1.5 opacity-90">
-                <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Proprietário</label>
-                <input type="text" [(ngModel)]="veiculoSelecionado.proprietario.nome"
-                    class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner font-semibold focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
+        <div class="w-full p-6 flex flex-col h-full">
+            <div class="relative flex justify-center items-center mb-6 shrink-0">
+                <h3 class="font-bold uppercase text-[10px] tracking-[0.2em] text-center opacity-80">Editar Veículo</h3>
+                <button (click)="veiculoSelecionado = null"
+                    class="absolute right-0 hover:rotate-90 hover:scale-110 transition-transform duration-300 text-white/80 p-1 cursor-pointer">
+                    <span class="text-lg">✕</span>
+                </button>
             </div>
 
-            <div class="flex flex-col gap-1.5 opacity-90">
-                <label class="text-[9px] font-black uppercase tracking-wider opacity-70">CPF do Titular</label>
-                <input type="text" [(ngModel)]="veiculoSelecionado.proprietario.cpfProprietario"
-                    class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
-            </div>
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1 custom-scrollbar">
 
-            <div class="flex flex-col gap-1.5 opacity-90">
-                <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Empresa</label>
-                <input type="text" [(ngModel)]="veiculoSelecionado.empresa"
-                    class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col gap-1.5 opacity-90">
-                    <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Placa</label>
-                    <input type="text" [(ngModel)]="veiculoSelecionado.numeroPlaca"
-                        class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner font-mono font-bold focus:ring-2 focus:ring-red-300 outline-none transition-all uppercase text-sm">
+                    <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Proprietário</label>
+                    <input type="text" [(ngModel)]="veiculoSelecionado.proprietario.nome"
+                        class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner font-semibold focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
                 </div>
+
                 <div class="flex flex-col gap-1.5 opacity-90">
-                    <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Cor</label>
-                    <input type="text" [(ngModel)]="veiculoSelecionado.cor"
+                    <label class="text-[9px] font-black uppercase tracking-wider opacity-70">CPF do Titular</label>
+                    <input type="text" [(ngModel)]="veiculoSelecionado.proprietario.cpfProprietario"
                         class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
                 </div>
-            </div>
 
-            <div class="flex items-center justify-between py-4 border-y border-white/20 my-2">
-                <div class="flex flex-col">
-                    <span class="text-[10px] font-black uppercase tracking-wider">Status de Bloqueio</span>
-                    <span class="text-[9px] opacity-70 italic">
-                        {{ veiculoSelecionado.bloqueado ? 'Acesso negado' : 'Acesso liberado' }}
-                    </span>
+                <div class="flex flex-col gap-1.5 opacity-90">
+                    <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Empresa</label>
+                    <input type="text" [(ngModel)]="veiculoSelecionado.empresa"
+                        class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
                 </div>
 
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" class="sr-only peer" [checked]="veiculoSelecionado.bloqueado"
-                        (change)="bloquearVeiculo(veiculoSelecionado)">
-                    <div
-                        class="w-10 h-5 bg-white/20 rounded-full peer peer-checked:bg-red-900 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 shadow-lg">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5 opacity-90">
+                        <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Placa</label>
+                        <input type="text" [(ngModel)]="veiculoSelecionado.numeroPlaca"
+                            class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner font-mono font-bold focus:ring-2 focus:ring-red-300 outline-none transition-all uppercase text-sm">
                     </div>
-                </label>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <div class="flex flex-col gap-1.5">
-                    <button (click)="salvarEdicao()" (click)="veiculoSelecionado = null" [disabled]="!temAlteracao()"
-                        class="group flex items-center justify-center gap-2 w-full p-2.5 rounded-md border border-white/20 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg
-                        enabled:bg-white enabled:text-[#E23C33] enabled:cursor-pointer enabled:active:scale-95 disabled:bg-white/10 disabled:text-white/40">
-                        ✓ Salvar
-                    </button>
+                    <div class="flex flex-col gap-1.5 opacity-90">
+                        <label class="text-[9px] font-black uppercase tracking-wider opacity-70">Cor</label>
+                        <input type="text" [(ngModel)]="veiculoSelecionado.cor"
+                            class="w-full bg-white text-gray-800 p-2.5 rounded-md shadow-inner focus:ring-2 focus:ring-red-300 outline-none transition-all text-sm">
+                    </div>
                 </div>
 
-                <div class="flex flex-col gap-1.5">
-                    <button (click)="excluirVeiculo(veiculoSelecionado.idVeiculo)" (click)="veiculoSelecionado = null"
-                        class="group flex items-center justify-center gap-2 w-full bg-black/10 hover:bg-white text-white/90 hover:text-red-700 p-2.5 rounded-md border border-white/10 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
-                        🗑 Excluir
-                    </button>
+                <div class="flex items-center justify-between py-4 border-y border-white/20 my-2">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-black uppercase tracking-wider">Status de Bloqueio</span>
+                        <span class="text-[9px] opacity-70 italic">
+                            {{ veiculoSelecionado.bloqueado ? 'Acesso negado' : 'Acesso liberado' }}
+                        </span>
+                    </div>
+
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" [checked]="veiculoSelecionado.bloqueado"
+                            (change)="bloquearVeiculo(veiculoSelecionado)">
+                        <div
+                            class="w-10 h-5 bg-white/20 rounded-full peer peer-checked:bg-red-900 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 shadow-lg">
+                        </div>
+                    </label>
+                </div>
+                <div class="flex gap-3 pt-2 w-full">
+
+                    <div class="flex-1">
+                        <button (click)="salvarEdicao()" (click)="veiculoSelecionado = null"
+                            [disabled]="!temAlteracao()"
+                            class="group flex items-center justify-center gap-2 w-full p-2.5 rounded-md border border-white/20 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg
+            enabled:bg-white enabled:text-[#E23C33] enabled:cursor-pointer enabled:active:scale-95 disabled:bg-white/10 disabled:text-white/40">
+                            ✓ Salvar
+                        </button>
+                    </div>
+
+                    @if (authService.isAdmin()) {
+                    <div class="flex-1">
+                        <button (click)="excluirVeiculo(veiculoSelecionado.idVeiculo)"
+                            (click)="veiculoSelecionado = null"
+                            class="group flex items-center justify-center gap-2 w-full bg-black/10 hover:bg-white text-white/90 hover:text-red-700 p-2.5 rounded-md border border-white/10 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
+                            🗑 Excluir
+                        </button>
+                    </div>
+                    }
                 </div>
             </div>
         </div>
-    </div>
-</article>
+    </article>
     }
 
     <div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">

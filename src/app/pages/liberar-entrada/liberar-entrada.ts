@@ -104,7 +104,7 @@ export class LiberarEntrada implements OnInit {
         let mensagem = 'Ocorreu um erro inesperado.'; 
         this.isLoadingRegistro.set(false);
 
-        if (err.status === 401 || err.status === 403) {
+        if (err.status === 400 || err.status === 403) {
           mensagem = 'Veículo bloqueado ou sem permissão.';
         } else if (err.status === 404) {
           mensagem = 'Veículo não encontrado.';

@@ -155,7 +155,7 @@ export class LiberarSaida implements OnInit {
         this.isLoadingRegistro.set(false);
         let mensagem = 'Ocorreu um erro inesperado.'; 
 
-        if (err.status === 401 || err.status === 403) {
+        if (err.status === 400 || err.status === 403) {
           mensagem = 'Veículo bloqueado ou sem permissão.';
         } else if (err.status === 404) {
           mensagem = 'Veículo não encontrado.';
