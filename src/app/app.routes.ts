@@ -9,8 +9,9 @@ import { CadastrarVeiculo } from './pages/cadastrar-veiculo/cadastrar-veiculo';
 import { TabelaDeVeiculos } from './pages/tabela-de-veiculos/tabela-de-veiculos';
 
 export const routes: Routes = [
-    { path: '', component: PaginaLogin },
     { path: 'cadastro', component: CadastroForm },
+    { path: 'login', component: PaginaLogin },
+    { path: '', component: PaginaLogin },
 
     {
         path: '',

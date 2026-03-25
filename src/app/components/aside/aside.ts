@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/services/auth.service';
 
 @Component({
   selector: 'app-aside',
@@ -8,7 +9,10 @@ import { Router } from '@angular/router';
   styleUrl: './aside.css',
 })
 export class Aside {
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    public AuthService: AuthService
+  ) { }
 
 
   irParaDashboard() {
@@ -29,6 +33,10 @@ export class Aside {
 
   irParaTabelaDeVeiculo() {
     this.router.navigate(['/tabela-de-veiculos']);
+  }
+
+  irParaCadastroForm() {
+    this.router.navigate(['/cadastro']);
   }
 
 }

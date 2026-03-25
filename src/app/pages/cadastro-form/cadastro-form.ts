@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { LoginForm } from "../../components/login-form/login-form";
 import { Botao } from "../../shared/botao-login/botao-login";
 import { Router } from '@angular/router';
@@ -6,11 +6,12 @@ import { AuthService } from '../../services/services/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { catchError, map, of, tap } from 'rxjs';
 import { LoadingSpinner } from "../../shared/loading-spinner/loading-spinner";
+import { Toast, ToastType } from "../../shared/toast/toast";
 
 @Component({
   selector: 'app-cadastro-form',
   standalone: true, 
-  imports: [Botao, ReactiveFormsModule, LoginForm, LoadingSpinner],
+  imports: [Botao, ReactiveFormsModule, LoginForm, LoadingSpinner, Toast],
   templateUrl: './cadastro-form.html',
   styleUrl: './cadastro-form.css',
 })
@@ -21,6 +22,11 @@ export class CadastroForm implements OnInit {
   mostrarRepeteSenha = false;
   mensagemErro: string | null = null;
   carregando = false;
+
+
+  readonly mostrarToast = signal(false);
+  readonly mensagemToast = signal('');
+  readonly tipoToast = signal<ToastType>('success');
 
   constructor(
     private router: Router,
@@ -95,20 +101,29 @@ export class CadastroForm implements OnInit {
 
     this.authService.cadastrar(emailCorporativo!, senha!).subscribe({
       next: () => {
+        this.mensagemToast.set('Cadastro realizado com sucesso!');
+        this.mostrarToast.set(true);
+        this.tipoToast.set('success');
+        this.carregando = false;
         
-        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         this.carregando = false;
 
         if (error.status === 409) {
           this.mensagemErro = 'Este e-mail já está sendo utilizado.';
+          this.mensagemToast.set('Este e-mail já está sendo utilizado. Tente novamente.');
         } else {
           this.mensagemErro = 'Houve um erro no cadastro. Tente novamente.';
+          this.mensagemToast.set('Houve um erro no cadastro. Tente novamente.');
         }
 
         this.cdr.markForCheck();
       }
     });
+  }
+
+  voltarAoDashboard() {
+    this.router.navigate(['dashboard']);
   }
 }
