@@ -108,17 +108,26 @@ export class CadastroForm implements OnInit {
         
       },
       error: (error) => {
-        this.carregando = false;
+        this.carregando = false; 
 
+       
         if (error.status === 409) {
           this.mensagemErro = 'Este e-mail já está sendo utilizado.';
-          this.mensagemToast.set('Este e-mail já está sendo utilizado. Tente novamente.');
+        } else if (error.status === 400 && Array.isArray(error.error)) {
+
+          this.mensagemErro = error.error[0].mensagem;
         } else {
           this.mensagemErro = 'Houve um erro no cadastro. Tente novamente.';
-          this.mensagemToast.set('Houve um erro no cadastro. Tente novamente.');
         }
 
+        this.mensagemToast.set(this.mensagemErro!);
+        this.tipoToast.set('error');
+        this.mostrarToast.set(true);
+
         this.cdr.markForCheck();
+      },
+      complete: () => {
+        this.carregando = false; 
       }
     });
   }

@@ -1,10 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { VeiculoService } from '../../services/services/veiculo.service';
 import { StatusVeiculo, TipoVeiculo } from '../../models/veiculo';
 import { Router } from '@angular/router';
 import { NgxMaskDirective } from 'ngx-mask';
 import { Toast, ToastType } from "../../shared/toast/toast";
+import { CpfValidator } from '../../shared/validators/cpf.validator';
 
 @Component({
   selector: 'app-cadastrar-veiculo',
@@ -25,25 +27,25 @@ export class CadastrarVeiculo {
   readonly tipoToast = signal<ToastType>('success');
 
   veiculoForm = this.fb.group({
-    numeroPlaca: ['', [Validators.required]],
-    cor: ['', [Validators.required]],
+    numeroPlaca: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3}-[0-9][a-zA-Z0-9][0-9]{2}$/)]],
+    cor: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/)]],
     visitante: [false],
-    bloqueado: [false],
     tipoVeiculo: [null as TipoVeiculo | null, [Validators.required]],
     statusVeiculo: [StatusVeiculo.ATIVO, [Validators.required]],
     proprietario: this.fb.group({
-      nome: ['', [Validators.required]],
-      cpfProprietario: ['', [Validators.required]]
+      nome: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/)]],
+      cpfProprietario: ['', [Validators.required, CpfValidator.validar]]
     }),
     empresa: ['']
-  })
+  });
+
+
 
   private resetForm() {
     this.veiculoForm.reset({
       numeroPlaca: '',
       cor: '',
       visitante: false,
-      bloqueado: false,
       tipoVeiculo: null,
       statusVeiculo: StatusVeiculo.ATIVO,
       proprietario: {
@@ -60,7 +62,7 @@ export class CadastrarVeiculo {
       const empresaControl = this.veiculoForm.get('empresa');
 
       if (tipo === TipoVeiculo.CAMINHAO) {
-        empresaControl?.setValidators([Validators.required]);
+        empresaControl?.setValidators([Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ0-9\s.,&'-]+$/)]);
       } else {
         empresaControl?.clearValidators();
         empresaControl?.setValue('');
@@ -76,7 +78,17 @@ export class CadastrarVeiculo {
   onSubmit() {
     this.isLoading.set(true);
     if (this.veiculoForm.valid) {
-      const dados = this.veiculoForm.value as any;
+      const dados = { ...this.veiculoForm.value } as any;
+
+      if (dados.numeroPlaca) {
+        dados.numeroPlaca = dados.numeroPlaca.toUpperCase();
+      }
+
+      if (dados.statusVeiculo === StatusVeiculo.ATIVO) {
+        dados.status = 'ATIVO';
+      } else {
+        dados.status = 'BLOQUEADO';
+      }
 
       if (dados.tipoVeiculo !== TipoVeiculo.CAMINHAO) {
         if (dados.visitante) {
@@ -98,7 +110,6 @@ export class CadastrarVeiculo {
             numeroPlaca: '',
             cor: '',
             visitante: false,
-            bloqueado: false,
             tipoVeiculo: null,
             statusVeiculo: StatusVeiculo.ATIVO,
             proprietario: {
@@ -109,16 +120,22 @@ export class CadastrarVeiculo {
           });
 
           this.veiculoService.notificarNovoCadastro();
-            
+
         },
         error: (err) => {
-          if (err.status === 403 || err.status === 401) {
+          this.isLoading.set(false);
+          if ((err.status === 403 || err.status === 401)) {
             this.mostrarToast.set(true);
-            this.mensagemToast.set('Jé existe um veiculo com essa placa ou um proprietário com esse CPF.' + err.message);
+            const msg = Array.isArray(err.error) ? err.error.map((e: any) => e.mensagem).join(', ') : (err.status === 403 ? 'Acesso negado (Sessão expirada ou sem permissão).' : 'Não autorizado.');
+            this.mensagemToast.set(msg);
             this.tipoToast.set('error');
-          } else if (err.status === 404) {
+          } else if (err.status === 404 && Array.isArray(err.error)) {
             this.mostrarToast.set(true);
-            this.mensagemToast.set('Veiculo nao encontrado.' + err.message);
+            this.mensagemToast.set(err.error.map((e: any) => e.mensagem).join(', '));
+            this.tipoToast.set('error');
+          } else if (err.status === 400 && Array.isArray(err.error)) {
+            this.mostrarToast.set(true);
+            this.mensagemToast.set(err.error.map((e: any) => e.mensagem).join(', '));
             this.tipoToast.set('error');
           } else {
             this.mostrarToast.set(true);

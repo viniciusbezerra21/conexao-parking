@@ -18,6 +18,14 @@
                     <input type="text" formControlName="nome"
                         class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
                         placeholder="Nome completo">
+                    @if (veiculoForm.get('proprietario.nome')?.invalid && veiculoForm.get('proprietario.nome')?.touched) {
+                        @if (veiculoForm.get('proprietario.nome')?.errors?.['required']) {
+                            <span class="text-xs text-red-500 mt-1">O nome é obrigatório.</span>
+                        }
+                        @if (veiculoForm.get('proprietario.nome')?.errors?.['pattern']) {
+                            <span class="text-xs text-red-500 mt-1">O nome deve conter apenas letras.</span>
+                        }
+                    }
                 </div>
 
                 <div class="flex flex-col gap-1.5">
@@ -25,6 +33,14 @@
                     <input type="text" formControlName="cpfProprietario"
                         class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
                         placeholder="000.000.000-00" mask="000.000.000-00" [dropSpecialCharacters]="false">
+                    @if (veiculoForm.get('proprietario.cpfProprietario')?.invalid && veiculoForm.get('proprietario.cpfProprietario')?.touched) {
+                        @if (veiculoForm.get('proprietario.cpfProprietario')?.errors?.['required']) {
+                            <span class="text-xs text-red-500 mt-1">O CPF é obrigatório.</span>
+                        }
+                        @if (veiculoForm.get('proprietario.cpfProprietario')?.errors?.['cpfInvalido']) {
+                            <span class="text-xs text-red-500 mt-1">O CPF informado é inválido.</span>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -43,6 +59,9 @@
                         <option [value]="tipo">{{ tipo }}</option>
                         }
                     </select>
+                    @if (veiculoForm.get('tipoVeiculo')?.invalid && veiculoForm.get('tipoVeiculo')?.touched) {
+                        <span class="text-xs text-red-500 mt-1">Selecione o tipo de veículo.</span>
+                    }
                 </div>
 
                 <div class="flex flex-col gap-1.5">
@@ -50,6 +69,14 @@
                     <input type="text" formControlName="numeroPlaca" 
                         class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all uppercase"
                         placeholder="ABC-1D23" mask="SSS-0A00" [dropSpecialCharacters]="false" >
+                    @if (veiculoForm.get('numeroPlaca')?.invalid && veiculoForm.get('numeroPlaca')?.touched) {
+                        @if (veiculoForm.get('numeroPlaca')?.errors?.['required']) {
+                            <span class="text-xs text-red-500 mt-1">A placa é obrigatória.</span>
+                        }
+                        @if (veiculoForm.get('numeroPlaca')?.errors?.['pattern']) {
+                            <span class="text-xs text-red-500 mt-1">Formato de placa inválido.</span>
+                        }
+                    }
                 </div>
             </div>
 
@@ -57,6 +84,14 @@
                 <label class="text-sm font-semibold text-gray-600">Cor</label>
                 <input type="text" formControlName="cor"
                     class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
+                @if (veiculoForm.get('cor')?.invalid && veiculoForm.get('cor')?.touched) {
+                    @if (veiculoForm.get('cor')?.errors?.['required']) {
+                        <span class="text-xs text-red-500 mt-1">A cor é obrigatória.</span>
+                    }
+                    @if (veiculoForm.get('cor')?.errors?.['pattern']) {
+                        <span class="text-xs text-red-500 mt-1">A cor deve conter apenas letras.</span>
+                    }
+                }
             </div>
 
             @if (exibirCampoEmpresa) {
@@ -67,7 +102,12 @@
                     placeholder="Digite o nome da empresa">
             
                 @if (veiculoForm.get('empresa')?.invalid && veiculoForm.get('empresa')?.touched) {
-                <span class="text-xs text-red-500">O nome da empresa é obrigatório para caminhões.</span>
+                    @if (veiculoForm.get('empresa')?.errors?.['required']) {
+                        <span class="text-xs text-red-500 mt-1">O nome da empresa é obrigatório para caminhões.</span>
+                    }
+                    @if (veiculoForm.get('empresa')?.errors?.['pattern']) {
+                        <span class="text-xs text-red-500 mt-1">O nome da empresa possui caracteres inválidos.</span>
+                    }
                 }
             </div>
             }
