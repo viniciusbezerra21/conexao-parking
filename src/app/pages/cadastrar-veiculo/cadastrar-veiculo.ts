@@ -124,24 +124,43 @@ export class CadastrarVeiculo {
         },
         error: (err) => {
           this.isLoading.set(false);
-          if ((err.status === 403 || err.status === 401)) {
-            this.mostrarToast.set(true);
-            const msg = Array.isArray(err.error) ? err.error.map((e: any) => e.mensagem).join(', ') : (err.status === 403 ? 'Acesso negado (Sessão expirada ou sem permissão).' : 'Não autorizado.');
-            this.mensagemToast.set(msg);
-            this.tipoToast.set('error');
-          } else if (err.status === 404 && Array.isArray(err.error)) {
-            this.mostrarToast.set(true);
-            this.mensagemToast.set(err.error.map((e: any) => e.mensagem).join(', '));
-            this.tipoToast.set('error');
-          } else if (err.status === 400 && Array.isArray(err.error)) {
-            this.mostrarToast.set(true);
-            this.mensagemToast.set(err.error.map((e: any) => e.mensagem).join(', '));
-            this.tipoToast.set('error');
-          } else {
-            this.mostrarToast.set(true);
-            this.mensagemToast.set('Erro ao registrar veiculo na API.' + err.message);
-            this.tipoToast.set('error');
+          this.mostrarToast.set(true);
+          this.tipoToast.set('error');
+
+          let msg = 'Ocorreu um erro inesperado.';
+
+        
+          if (Array.isArray(err.error)) {
+            msg = err.error.map((e: any) => e.mensagem || e.defaultMessage).join(', ');
           }
+
+          
+          else {
+            switch (err.status) {
+              case 400:
+                msg = err.error?.mensagem || 'Dados inválidos. Verifique os campos.';
+                break;
+              case 401:
+                msg = 'Sessão expirada. Por favor, faça login novamente.';
+                break;
+              case 403:
+                msg = err.error?.mensagem || 'Acesso negado ou veículo bloqueado para esta ação.';
+                break;
+              case 404:
+                msg = err.error?.mensagem || 'Registro não encontrado.';
+                break;
+              case 409:
+                msg = err.error?.mensagem || 'Conflito: Este CPF ou Placa já consta no sistema.';
+                break;
+              case 0:
+                msg = 'Não foi possível conectar ao servidor. Verifique sua conexão.';
+                break;
+              default:
+                msg = `Erro na API: ${err.error?.mensagem || err.message}`;
+            }
+          }
+
+          this.mensagemToast.set(msg);
         }
       })
     }
