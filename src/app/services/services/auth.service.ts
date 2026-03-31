@@ -20,11 +20,7 @@ export class AuthService {
     return this.httpClient.post<CadastroResponse>(`${this.API}/usuario/cadastro`, {
       emailCorporativo,
       senha
-    }).pipe(
-      tap(response => {
-        this.setToken(response.token);
-      })
-    );
+    });
   }
 
   login(emailCorporativo: string, senha: string) {

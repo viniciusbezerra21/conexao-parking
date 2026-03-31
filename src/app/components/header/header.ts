@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/services/auth.service';
+import { ThemeService } from '../../services/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ export class Header {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private eRef: ElementRef
+    private eRef: ElementRef,
+    public themeService: ThemeService
   ) { }
 
   

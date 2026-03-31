@@ -31,7 +31,7 @@ export class TabelaDeVeiculos implements OnInit {
 
   totalPages = 0;
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 5;
 
   constructor(
     private veiculoService: VeiculoService,

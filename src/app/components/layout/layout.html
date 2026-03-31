@@ -1,9 +1,9 @@
 <app-header class="fixed top-0 left-0 right-0 h-16 z-50"></app-header>
 
-<div class="flex pt-16 h-screen overflow-hidden bg-gray-50">
+<div class="flex pt-16 h-screen overflow-hidden bg-gray-50 dark:bg-zinc-900 transition-colors duration-300">
     <app-aside class="hidden md:block w-60 h-full overflow-y-auto bg-[#CC2A2A] text-white"></app-aside>
 
-    <main class="flex-1 h-full overflow-y-auto p-8">
+    <main class="flex-1 h-full overflow-y-auto p-8 bg-gray-50 dark:bg-zinc-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto">
             <router-outlet></router-outlet>
         </div>

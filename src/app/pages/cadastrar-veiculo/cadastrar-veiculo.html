@@ -1,22 +1,22 @@
-<div class="flex items-center justify-center p-6">
+<div class="flex items-center justify-center p-6 min-h-full dark:bg-zinc-900 transition-colors duration-300">
     @if (isLoading()) {
-    <div class="fixed inset-0 bg-white z-60 flex flex-col items-center justify-center">
+    <div class="fixed inset-0 bg-white dark:bg-zinc-800 z-60 flex flex-col items-center justify-center">
         <div class="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
         <span class="mt-4 text-xs text-red-500 font-bold uppercase tracking-[0.2em]">Conexão Parking</span>
     </div>
     }
     
     <form [formGroup]="veiculoForm" (ngSubmit)="onSubmit()"
-        class="bg-white shadow-2xl border border-gray-100 rounded-2xl p-8 w-full max-w-lg">
+        class="bg-white dark:bg-zinc-800 shadow-2xl border border-gray-100 dark:border-zinc-700 rounded-2xl p-8 w-full max-w-lg transition-colors duration-300">
 
         <h3 class="text-[#CC2A2A] text-3xl font-bold text-center mb-8">Cadastrar Veículo</h3>
 
         <div class="space-y-5 mb-6" formGroupName="proprietario">
             <div class="grid grid-cols-1 gap-5">
                 <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-semibold text-gray-600">Nome do proprietário</label>
+                    <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nome do proprietário</label>
                     <input type="text" formControlName="nome"
-                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
+                        class="w-full bg-gray-50 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-100 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
                         placeholder="Nome completo">
                     @if (veiculoForm.get('proprietario.nome')?.invalid && veiculoForm.get('proprietario.nome')?.touched) {
                         @if (veiculoForm.get('proprietario.nome')?.errors?.['required']) {
@@ -29,9 +29,9 @@
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-semibold text-gray-600">CPF</label>
+                    <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">CPF</label>
                     <input type="text" formControlName="cpfProprietario"
-                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
+                        class="w-full bg-gray-50 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-100 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
                         placeholder="000.000.000-00" mask="000.000.000-00" [dropSpecialCharacters]="false">
                     @if (veiculoForm.get('proprietario.cpfProprietario')?.invalid && veiculoForm.get('proprietario.cpfProprietario')?.touched) {
                         @if (veiculoForm.get('proprietario.cpfProprietario')?.errors?.['required']) {
@@ -45,14 +45,14 @@
             </div>
         </div>
 
-        <hr class="border-gray-100 mb-6">
+        <hr class="border-gray-100 dark:border-zinc-700 mb-6">
 
         <div class="space-y-5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-semibold text-gray-600">Tipo</label>
+                    <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Tipo</label>
                     <select formControlName="tipoVeiculo"
-                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
+                        class="w-full bg-gray-50 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
                         <option [ngValue]="null" disabled>Selecione...</option>
 
                         @for (tipo of tiposDeVeiculo; track tipo) {
@@ -65,9 +65,9 @@
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-semibold text-gray-600">Placa</label>
+                    <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Placa</label>
                     <input type="text" formControlName="numeroPlaca" 
-                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all uppercase"
+                        class="w-full bg-gray-50 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-100 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all uppercase"
                         placeholder="ABC-1D23" mask="SSS-0A00" [dropSpecialCharacters]="false" >
                     @if (veiculoForm.get('numeroPlaca')?.invalid && veiculoForm.get('numeroPlaca')?.touched) {
                         @if (veiculoForm.get('numeroPlaca')?.errors?.['required']) {
@@ -81,9 +81,9 @@
             </div>
 
             <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-semibold text-gray-600">Cor</label>
+                <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Cor</label>
                 <input type="text" formControlName="cor"
-                    class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
+                    class="w-full bg-gray-50 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-100 rounded-lg px-4 py-2.5 outline-none focus:border-[#CC2A2A] transition-all">
                 @if (veiculoForm.get('cor')?.invalid && veiculoForm.get('cor')?.touched) {
                     @if (veiculoForm.get('cor')?.errors?.['required']) {
                         <span class="text-xs text-red-500 mt-1">A cor é obrigatória.</span>
@@ -96,9 +96,9 @@
 
             @if (exibirCampoEmpresa) {
             <div class="flex flex-col gap-1.5 mt-2 animate-in fade-in duration-300">
-                <label class="text-sm font-semibold text-gray-600">Nome da Empresa</label>
+                <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nome da Empresa</label>
                 <input type="text" formControlName="empresa"
-                    class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
+                    class="w-full bg-gray-50 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-100 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#CC2A2A]/20 focus:border-[#CC2A2A] outline-none transition-all"
                     placeholder="Digite o nome da empresa">
             
                 @if (veiculoForm.get('empresa')?.invalid && veiculoForm.get('empresa')?.touched) {
@@ -112,12 +112,12 @@
             </div>
             }
 
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <label class="text-sm font-semibold text-gray-700">É um veículo de visitante?</label>
+            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-zinc-700/50 rounded-lg border border-gray-200 dark:border-zinc-700">
+                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">É um veículo de visitante?</label>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" formControlName="visitante" class="sr-only peer">
                     <div
-                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#CC2A2A]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#CC2A2A]">
+                        class="w-11 h-6 bg-gray-200 dark:bg-zinc-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#CC2A2A]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 dark:after:border-zinc-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#CC2A2A]">
                     </div>
                 </label>
             </div>
@@ -125,7 +125,7 @@
 
         <div class="flex gap-3 mt-8">
             <button type="button" (click)="onCancel()"
-                class="flex-1 py-3 rounded-lg border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all cursor-pointer">
+                class="flex-1 py-3 rounded-lg border border-gray-200 dark:border-zinc-600 text-gray-600 dark:text-gray-400 font-semibold hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all cursor-pointer">
                 Cancelar
             </button>
             <button type="submit" [disabled]="veiculoForm.invalid"
@@ -135,7 +135,7 @@
         </div>
     </form>
 
-    <div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
+    <div class="flex flex-col items-center bg-gray-50 dark:bg-zinc-900 min-h-screen p-4 transition-colors">
         <app-toast [mensagem]="mensagemToast()" [visivel]="mostrarToast()" [tipo]="tipoToast()"
             (fechar)="mostrarToast.set(false)">
         </app-toast>

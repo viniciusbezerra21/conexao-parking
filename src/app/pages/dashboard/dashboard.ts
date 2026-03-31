@@ -26,7 +26,7 @@ export class Dashboard implements OnInit {
   movimentacaoSelecionada: Movimentacao | null = null;
   totalPages = 0;
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 5;
 
   readonly isLoadingInicial = signal(false);
   readonly isLoadingBusca = signal(false);

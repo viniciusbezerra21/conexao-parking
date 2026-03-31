@@ -39,4 +39,8 @@ export class Aside {
     this.router.navigate(['/cadastro']);
   }
 
+  irParaTabelaDeUsuarios() {
+    this.router.navigate(['/tabela-usuarios']);
+  }
+
 }

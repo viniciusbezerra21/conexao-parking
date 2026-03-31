@@ -1,4 +1,4 @@
-<div class="w-204 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100">
+<div class="w-204 bg-white dark:bg-zinc-800 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100 dark:border-zinc-700 transition-colors duration-300">
     <div class="px-8 py-6 bg-[#CC2A2A] text-white">
         <h2 class="text-xl font-medium tracking-wide"><ng-content></ng-content></h2>
     </div>
@@ -6,37 +6,37 @@
     @if (veiculo(); as v) {
     <div class="p-8 flex gap-12 py-16">
         <div class="flex-1 space-y-4">
-            <div class="flex justify-between border-b border-gray-100 pb-2">
+            <div class="flex justify-between border-b border-gray-100 dark:border-zinc-700 pb-2">
                 <span class="text-gray-500 text-sm uppercase font-semibold">Proprietário</span>
-                <span class="text-gray-800 font-medium">{{ v.proprietario.nome }}</span>
+                <span class="text-gray-800 dark:text-gray-200 font-medium font-bold">{{ v.proprietario.nome }}</span>
             </div>
-            <div class="flex justify-between border-b border-gray-100 pb-2">
+            <div class="flex justify-between border-b border-gray-100 dark:border-zinc-700 pb-2">
                 <span class="text-gray-500 text-sm uppercase font-semibold">CPF</span>
-                <span class="text-gray-800 font-medium">{{ v.proprietario.cpfProprietario }}</span>
+                <span class="text-gray-800 dark:text-gray-200 font-medium">{{ v.proprietario.cpfProprietario }}</span>
             </div>
-            <div class="flex justify-between border-b border-gray-100 pb-2">
+            <div class="flex justify-between border-b border-gray-100 dark:border-zinc-700 pb-2">
                 <span class="text-gray-500 text-sm uppercase font-semibold">Tipo</span>
-                <span class="text-gray-800 font-medium">{{ v.tipoVeiculo }}</span>
+                <span class="text-gray-800 dark:text-gray-200 font-medium">{{ v.tipoVeiculo }}</span>
             </div>
-            <div class="flex justify-between border-b border-gray-100 pb-2">
+            <div class="flex justify-between border-b border-gray-100 dark:border-zinc-700 pb-2">
                 <span class="text-gray-500 text-sm uppercase font-semibold">Placa</span>
-                <span class="text-gray-800 font-medium font-mono">{{ v.numeroPlaca }}</span>
+                <span class="text-gray-800 dark:text-gray-200 font-medium font-mono">{{ v.numeroPlaca }}</span>
             </div>
-            <div class="flex justify-between border-b border-gray-100 pb-2">
+            <div class="flex justify-between border-b border-gray-100 dark:border-zinc-700 pb-2">
                 <span class="text-gray-500 text-sm uppercase font-semibold">Empresa</span>
-                <span class="text-gray-800 font-medium font-mono">{{ v.empresa }}</span>
+                <span class="text-gray-800 dark:text-gray-200 font-medium font-mono">{{ v.empresa }}</span>
             </div>
         </div>
 
         <div class="flex-1">
             <label class="block text-gray-500 text-sm uppercase font-semibold mb-3">Observações</label>
-            <textarea [formControl]="observacaoControl" class="w-full h-full min-h-35 p-4 bg-gray-50 rounded-lg border border-gray-200 ..."></textarea>
+            <textarea [formControl]="observacaoControl" class="w-full h-full min-h-35 p-4 bg-gray-50 dark:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 text-gray-800 dark:text-gray-200 outline-none focus:ring-2 focus:ring-red-500/30 transition-all"></textarea>
         </div>
     </div>
 
-    <div class="px-8 py-5 bg-gray-50 flex justify-end gap-4 border-t border-gray-100">
+    <div class="px-8 py-5 bg-gray-50 dark:bg-zinc-700/50 flex justify-end gap-4 border-t border-gray-100 dark:border-zinc-700">
         <button
-            class="px-6 py-2.5 text-gray-600 font-medium hover:text-gray-900 transition-colors cursor-pointer" (click)="aoCancelar()" [disabled]="isLoading()">Cancelar</button>
+            class="px-6 py-2.5 text-gray-600 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer" (click)="aoCancelar()" [disabled]="isLoading()">Cancelar</button>
         <button
             (click)="onClickLiberar()"
             class="px-8 py-2.5 bg-[#E23C33] text-white font-semibold rounded-lg shadow-sm hover:bg-[#c2332c] transition-all cursor-pointer">

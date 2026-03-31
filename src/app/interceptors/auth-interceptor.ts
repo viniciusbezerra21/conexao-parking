@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const publicRoutes = ['/login', '/usuario/cadastro', '/usuario/check-email'];
+  const publicRoutes = ['/login', '/usuario/check-email'];
 
   const isPublicRoute = publicRoutes.some(route => req.url.includes(route));
 

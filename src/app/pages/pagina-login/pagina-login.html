@@ -29,7 +29,7 @@
 
                 @if (mensagemErro || (loginForm.get('emailCorporativo')?.errors?.['usuarioNaoEncontrado'] &&
                 loginForm.get('emailCorporativo')?.touched)) {
-                <div class="p-2 bg-red-50 border-l-4 border-red-500 rounded-r-md animate-fade-in">
+                <div class="p-2 bg-red-50 border-l-4 border-red-500 rounded-r-md animate-fade-in transition-colors">
                     <div class="flex items-start gap-2">
                         <span class="text-[11px] leading-tight text-red-700 font-medium">
                         {{ mensagemErro || '* Este e-mail corporativo não foi cadastrado.'}} 

@@ -65,8 +65,15 @@
                 }
             </div>
 
-            @if (mensagemErro || (cadastroForm.get('emailCorporativo')?.errors?.['emailEmUso'] &&
-            cadastroForm.get('emailCorporativo')?.touched)) {
+            @if (mensagemErro) {
+            <div class="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-md animate-fade-in">
+                <div class="flex items-start gap-2">
+                    <span class="text-[11px] leading-tight text-red-700 font-medium">
+                        {{ mensagemErro }}
+                    </span>
+                </div>
+            </div>
+            } @else if (cadastroForm.get('emailCorporativo')?.errors?.['emailEmUso'] && cadastroForm.get('emailCorporativo')?.touched) {
             <div class="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-md animate-fade-in">
                 <div class="flex items-start gap-2">
                     <span class="text-[11px] leading-tight text-red-700 font-medium">

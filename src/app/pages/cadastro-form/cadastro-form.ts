@@ -105,7 +105,9 @@ export class CadastroForm implements OnInit {
         this.mostrarToast.set(true);
         this.tipoToast.set('success');
         this.carregando = false;
-        
+        this.cadastroForm.reset();
+        this.mostrarSenha = false;
+        this.mostrarRepeteSenha = false;
       },
       error: (error) => {
         this.carregando = false; 
@@ -113,8 +115,11 @@ export class CadastroForm implements OnInit {
        
         if (error.status === 409) {
           this.mensagemErro = 'Este e-mail já está sendo utilizado.';
+        } else if (error.status === 403) {
+          this.mensagemErro = 'Você não tem permissão para cadastrar usuários.';
+        } else if (error.status === 401) {
+          this.mensagemErro = 'Sua sessão expirou. Faça login novamente.';
         } else if (error.status === 400 && Array.isArray(error.error)) {
-
           this.mensagemErro = error.error[0].mensagem;
         } else {
           this.mensagemErro = 'Houve um erro no cadastro. Tente novamente.';
@@ -127,6 +132,8 @@ export class CadastroForm implements OnInit {
         this.cdr.markForCheck();
       },
       complete: () => {
+        
+
         this.carregando = false; 
       }
     });

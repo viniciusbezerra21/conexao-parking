@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
+<div class="flex flex-col items-center bg-gray-50 dark:bg-zinc-900 min-h-screen p-4 transition-colors duration-300">
 
     @if (isLoadingInicial()) {
     <div class="fixed inset-0 bg-white z-60 flex flex-col items-center justify-center">
@@ -16,7 +16,7 @@
         @if (resultados().length > 0) {
 
         <div
-            class="absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-2xl mt-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            class="absolute z-20 w-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-2xl mt-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             @if (isLoadingBusca()) {
             <div class="p-4 flex justify-center border-b border-gray-100">
                 <div class="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
@@ -24,10 +24,10 @@
             }
             @for (v of resultados(); track v.idVeiculo) {
             <div (click)="selecionarVeiculo(v)"
-                class="px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none flex justify-between items-center">
+                class="px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors border-b border-gray-100 dark:border-zinc-700 last:border-none flex justify-between items-center">
                 <div class="flex flex-col">
-                    <span class="font-medium text-gray-800">{{ v.proprietario.nome }}</span>
-                    <span class="text-xs text-gray-500" mask="000.000.000-00">{{ v.proprietario.cpfProprietario
+                    <span class="font-medium text-gray-800 dark:text-gray-200">{{ v.proprietario.nome }}</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400" mask="000.000.000-00">{{ v.proprietario.cpfProprietario
                         }}</span>
                 </div>
                 <span class="text-sm font-mono font-bold text-[#CC2A2A] bg-red-50 px-2 py-1 rounded">
@@ -56,11 +56,9 @@
             }
         </app-liberar-veiculo-card>
     </div>
-
-    <div class="flex flex-col items-center bg-gray-50 min-h-screen p-4">
-        <app-toast [mensagem]="mensagemToast()" [visivel]="mostrarToast()" [tipo]="tipoToast()"
-            (fechar)="mostrarToast.set(false)">
-        </app-toast>
-    </div>
+    
+    <app-toast [mensagem]="mensagemToast()" [visivel]="mostrarToast()" [tipo]="tipoToast()"
+        (fechar)="mostrarToast.set(false)">
+    </app-toast>
 
 </div>

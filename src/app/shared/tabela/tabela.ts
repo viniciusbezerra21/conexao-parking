@@ -12,6 +12,7 @@ export class Tabela {
   @Input() paginaAtual = 0;
   @Input() totalPaginas = 0;
   @Input() modoCompacto: boolean = false;
+  @Input() colunas: string[] = ['Proprietário', 'Tipo veículo', 'CPF', 'Número placa', 'Status'];
 
   @Output() mudarPagina = new EventEmitter<number>();
   @Output() mudarTamanho = new EventEmitter<number>();
