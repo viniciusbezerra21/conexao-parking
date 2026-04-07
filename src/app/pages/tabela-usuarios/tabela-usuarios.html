@@ -7,7 +7,7 @@
 
         <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-gray-200 dark:border-zinc-700 overflow-hidden grow min-h-0 transition-colors duration-300">
             <app-tabela [modoCompacto]="!!usuarioSelecionado"
-                [colunas]="['ID', 'Email Corporativo', 'Status']" 
+                [colunas]="['ID', 'Email Corporativo', 'Perfil']" 
                 [paginaAtual]="currentPage"
                 [totalPaginas]="totalPages" (mudarPagina)="alterarPagina($event)"
                 (mudarTamanho)="alterarTamanhoPagina($event)">
@@ -17,11 +17,14 @@
                 class="hover:bg-blue-50 dark:hover:bg-zinc-700 transition-colors cursor-pointer border-b border-gray-100 dark:border-zinc-700 dark:text-gray-300">
                 <td class="px-6 py-4 text-center">#{{ user.idUsuario }}</td>
                 <td class="px-6 py-4 text-center font-medium">{{ user.emailCorporativo }}</td>
-                <td class="px-6 py-4 text-center">
+                <td class="px-6 py-4 flex justify-center items-center gap-2">
                     <span class="px-3 py-1 rounded-full text-xs font-bold"
-                        [ngClass]="user.ativo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
-                        {{ user.ativo ? 'Ativo' : 'Inativo' }}
+                        [ngClass]="isAdminRole(user.role) ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300' : 'bg-gray-200 text-gray-700 dark:bg-zinc-700 dark:text-gray-300'">
+                        {{ getRoleFormatada(user.role) }}
                     </span>
+                    @if(user.precisaTrocarSenha) {
+                        <span title="Reset Pendente" class="text-amber-500 font-bold text-lg leading-none cursor-help">⚠️</span>
+                    }
                 </td>
             </tr>
             }
@@ -41,33 +44,37 @@
                 </button>
             </div>
 
-            <div class="space-y-6 flex-1 overflow-y-auto pr-1 custom-scrollbar">
+            <div class="space-y-6 flex-1 pr-1 flex flex-col justify-center">
                 <div class="flex flex-col gap-2 opacity-90">
                     <label class="text-[10px] font-black uppercase tracking-wider opacity-70">ID Usuário</label>
                     <div
-                        class="w-full bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 p-3 rounded-md shadow-inner min-h-12 flex items-center font-semibold transition-colors">
-                        {{ usuarioSelecionado.idUsuario }}
+                        class="w-full bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 p-3 rounded-md shadow-inner min-h-12 flex items-center justify-between font-semibold transition-colors">
+                        <span>{{ usuarioSelecionado.idUsuario }}</span>
+                        @if (isAdminRole(usuarioSelecionado.role)) {
+                            <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">ADMIN</span>
+                        }
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-2 opacity-90">
                     <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Email Corporativo</label>
                     <input type="text" [(ngModel)]="usuarioSelecionado.emailCorporativo"
-                        class="w-full bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 p-3 rounded-md shadow-inner min-h-12 flex items-center transition-all focus:ring-2 focus:ring-red-300 outline-none">
+                        [disabled]="!!usuarioSelecionado.precisaTrocarSenha"
+                        [class.opacity-50]="!!usuarioSelecionado.precisaTrocarSenha"
+                        [class.cursor-not-allowed]="!!usuarioSelecionado.precisaTrocarSenha"
+                        class="w-full bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 p-3 rounded-md shadow-inner min-h-12 flex items-center transition-all focus:ring-2 focus:ring-red-300 outline-none disabled:bg-gray-200 dark:disabled:bg-zinc-900">
+                    @if (usuarioSelecionado.precisaTrocarSenha) {
+                        <span class="text-[10px] text-amber-200">Email bloqueado durante o reset de senha.</span>
+                    }
                 </div>
 
-                <div class="flex flex-col gap-2 opacity-90">
-                    <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Nova Senha</label>
-                    <input type="password" [ngModel]="novaSenha()" (ngModelChange)="novaSenha.set($event)" placeholder="Deixe em branco para não alterar"
-                        class="w-full bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 p-3 rounded-md shadow-inner min-h-12 flex items-center transition-all focus:ring-2 focus:ring-red-300 outline-none">
-                </div>
 
                 <div class="flex flex-col gap-2 opacity-90">
-                    <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Status</label>
+                    <label class="text-[10px] font-black uppercase tracking-wider opacity-70">Perfil</label>
                     <div
                         class="uppercase w-full bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 p-3 rounded-md shadow-inner min-h-12 flex items-center font-mono font-bold transition-colors">
-                        <span [ngClass]="usuarioSelecionado.ativo ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
-                            {{ usuarioSelecionado.ativo ? 'Ativo' : 'Inativo' }}
+                        <span [ngClass]="isAdminRole(usuarioSelecionado.role) ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'">
+                            {{ getRoleFormatada(usuarioSelecionado.role) }}
                         </span>
                     </div>
                 </div>
@@ -79,11 +86,23 @@
                     </button>
 
                     @if (authService.isAdmin()) {
+                    <button (click)="resetarSenhaUsuario()"
+                        class="group flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-400 text-white p-3 rounded-md border border-white/10 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
+                        ⚠️ Resetar Senha
+                    </button>
+
                     <div class="grid grid-cols-2 gap-3">
+                        @if (!isAdminRole(usuarioSelecionado.role)) {
                         <button (click)="promoverAdmin()"
                             class="group flex items-center justify-center gap-2 w-full bg-black/10 hover:bg-white text-white/90 hover:text-blue-700 p-3 rounded-md border border-white/10 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
                             🛡️ Tornar Admin
                         </button>
+                        } @else {
+                        <button (click)="rebaixarParaUsuario()"
+                            class="group flex items-center justify-center gap-2 w-full bg-black/10 hover:bg-white text-white/90 hover:text-orange-700 p-3 rounded-md border border-white/10 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
+                            👤 Tornar User
+                        </button>
+                        }
                         <button (click)="excluirUsuario()"
                             class="group flex items-center justify-center gap-2 w-full bg-black/10 hover:bg-white text-white/90 hover:text-red-700 p-3 rounded-md border border-white/10 transition-all duration-300 font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 cursor-pointer">
                             🗑️ Excluir

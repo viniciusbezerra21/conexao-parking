@@ -71,7 +71,11 @@ export class PaginaLogin implements OnInit {
 
     this.authService.login(emailCorporativo!, senha!).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        if (this.authService.precisaTrocarSenha()) {
+          this.router.navigate(['/redefinir-senha']);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: (error) => {
         this.carregando = false;

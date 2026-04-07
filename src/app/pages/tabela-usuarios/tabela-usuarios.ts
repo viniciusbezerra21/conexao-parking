@@ -1,3 +1,4 @@
+
 import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { SearchBar } from '../../shared/search-bar/search-bar';
 import { Tabela } from '../../shared/tabela/tabela';
@@ -23,7 +24,7 @@ export class TabelaUsuarios implements OnInit {
   usuarios: DadosListagemUsuario[] = [];
   usuariosExibicao: DadosListagemUsuario[] = [];
   usuarioSelecionado: DadosListagemUsuario | null = null;
-  
+
   totalPages = 0;
   currentPage = 0;
   pageSize = 5;
@@ -35,8 +36,6 @@ export class TabelaUsuarios implements OnInit {
   mostrarToast = signal(false);
   tipoToast = signal<ToastType>('success');
 
-  // Edit fields
-  novaSenha = signal('');
 
   ngOnInit() {
     this.carregarUsuarios();
@@ -73,10 +72,8 @@ export class TabelaUsuarios implements OnInit {
   selecionarUsuario(user: DadosListagemUsuario) {
     if (this.usuarioSelecionado?.idUsuario === user.idUsuario) {
       this.usuarioSelecionado = null;
-      this.novaSenha.set('');
     } else {
       this.usuarioSelecionado = user;
-      this.novaSenha.set('');
     }
   }
 
@@ -104,6 +101,19 @@ export class TabelaUsuarios implements OnInit {
     });
   }
 
+  rebaixarParaUsuario() {
+    if (!this.usuarioSelecionado) return;
+
+    this.usuarioService.tornarUsuario(this.usuarioSelecionado.idUsuario).subscribe({
+      next: () => {
+        this.exibirToast('Usuário rebaixado a comum com sucesso!', 'success');
+        this.usuarioSelecionado = null;
+        this.carregarUsuarios();
+      },
+      error: () => this.exibirToast('Erro ao rebaixar usuário.', 'error')
+    });
+  }
+
   excluirUsuario() {
     if (!this.usuarioSelecionado) return;
 
@@ -119,13 +129,27 @@ export class TabelaUsuarios implements OnInit {
     }
   }
 
+  resetarSenhaUsuario() {
+    if (!this.usuarioSelecionado) return;
+
+    if (confirm('Tem certeza que deseja forçar o reset de senha deste usuário? Sua sessão atual será expirada.')) {
+      this.usuarioService.resetarSenha(this.usuarioSelecionado.idUsuario).subscribe({
+        next: () => {
+          this.exibirToast('Senha resetada. A sessão do usuário foi encerrada. Ele será redirecionado para a página de troca (UI de Login) no próximo acesso.', 'success');
+          this.usuarioSelecionado = null;
+          this.carregarUsuarios();
+        },
+        error: () => this.exibirToast('Erro ao resetar a senha deste usuário.', 'error')
+      });
+    }
+  }
+
   salvarEdicao() {
     if (!this.usuarioSelecionado) return;
 
     const dados = {
       idUsuario: this.usuarioSelecionado.idUsuario,
-      emailCorporativo: this.usuarioSelecionado.emailCorporativo,
-      novaSenha: this.novaSenha() || undefined
+      emailCorporativo: this.usuarioSelecionado.emailCorporativo
     };
 
     this.usuarioService.atualizar(this.usuarioSelecionado.idUsuario, dados).subscribe({
@@ -136,6 +160,17 @@ export class TabelaUsuarios implements OnInit {
       },
       error: () => this.exibirToast('Erro ao atualizar usuário.', 'error')
     });
+  }
+
+  isAdminRole(role: any): boolean {
+    if (!role) return false;
+    // Tenta capturar o valor em caso de ser string (ex: 'ADMIN' ou 'ROLE_ADMIN') ou objeto
+    const roleStr = typeof role === 'string' ? role : (role.name || role.authority || role.toString());
+    return roleStr === 'ADMIN' || roleStr === 'ROLE_ADMIN';
+  }
+
+  getRoleFormatada(role: any): string {
+    return this.isAdminRole(role) ? 'Administrador' : 'Usr. Comum';
   }
 
   private exibirToast(mensagem: string, tipo: ToastType) {

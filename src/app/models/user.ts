@@ -9,6 +9,8 @@ export interface Usuario {
     emailCorporativo: string;
     senha: string;
     ativo: boolean;
+    role?: string;
+    precisaTrocarSenha?: boolean;
 }
 
 export interface CadastroResponse {

@@ -8,6 +8,8 @@ export interface DadosListagemUsuario {
   idUsuario: number;
   emailCorporativo: string;
   ativo: boolean;
+  precisaTrocarSenha?: boolean;
+  role?: string;
 }
 
 export interface DadosAtualizacaoUsuario {
@@ -37,11 +39,18 @@ export class UsuarioService {
   }
 
   tornarAdmin(id: number): Observable<void> {
-    // Note: The path below follows the controller's redundant structure (PUT /usuario/usuario/{id}/tornar-admin)
-    return this.httpClient.put<void>(`${this.API}/usuario/${id}/tornar-admin`, {});
+    return this.httpClient.put<void>(`${this.API}/${id}/tornar-admin`, {});
   }
 
-  atualizar(id: number, dados: DadosAtualizacaoUsuario): Observable<DadosAtualizacaoUsuario> {
-    return this.httpClient.put<DadosAtualizacaoUsuario>(`${this.API}/${id}`, dados);
+  tornarUsuario(id: number): Observable<void> {
+    return this.httpClient.put<void>(`${this.API}/${id}/tornar-usuario`, {});
+  }
+
+  resetarSenha(id: number): Observable<void> {
+    return this.httpClient.put<void>(`${this.API}/${id}/resetar-senha`, {});
+  }
+
+  atualizar(id: number, dados: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.API}/${id}`, dados);
   }
 }

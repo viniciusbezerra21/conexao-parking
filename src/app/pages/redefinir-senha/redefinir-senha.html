@@ -1,0 +1,63 @@
+<main
+    class="flex items-center justify-center min-h-screen bg-[url('/background-image.png')] bg-cover bg-position-[70%_center] bg-no-repeat">
+    <app-login-form [form]="redefinirForm">
+        <form [formGroup]="redefinirForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-1">
+                    <label for="novaSenha"
+                        class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nova Senha</label>
+                    <div class="relative w-full">
+                        <input [type]="mostrarNovaSenha ? 'text' : 'password'" id="novaSenha" formControlName="novaSenha"
+                            class="w-full px-4 h-12 bg-white border border-gray-200 rounded-lg outline-none transition-all pr-12 focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                        <button type="button" (click)="mostrarNovaSenha = !mostrarNovaSenha"
+                            class="absolute right-3 top-0 bottom-0 my-auto h-6 w-6 z-10 opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                            <img [src]="mostrarNovaSenha ? 'https://cdn.iconscout.com/icon/premium/png-256-thumb/ocultar-5156380-4314205.png?f=webp&w=128' : 'https://cdn.iconscout.com/icon/premium/png-256-thumb/mostrar-senha-icon-svg-download-png-12871286.png?f=webp&w=128'"
+                                alt="Alternar">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-1">
+                    <label for="confirmarSenha"
+                        class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Confirmar Senha</label>
+                    <div class="relative w-full">
+                        <input [type]="mostrarConfirmarSenha ? 'text' : 'password'" id="confirmarSenha" formControlName="confirmarSenha"
+                            class="w-full px-4 h-12 bg-white border border-gray-200 rounded-lg outline-none transition-all pr-12 focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+
+                        <button type="button" (click)="mostrarConfirmarSenha = !mostrarConfirmarSenha"
+                            class="absolute right-3 top-0 bottom-0 my-auto h-6 w-6 z-10 opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                            <img [src]="mostrarConfirmarSenha ? 'https://cdn.iconscout.com/icon/premium/png-256-thumb/ocultar-5156380-4314205.png?f=webp&w=128' : 'https://cdn.iconscout.com/icon/premium/png-256-thumb/mostrar-senha-icon-svg-download-png-12871286.png?f=webp&w=128'"
+                                alt="Alternar">
+                        </button>
+                    </div>
+                </div>
+                
+                @if (redefinirForm.errors?.['senhasDiferentes'] && redefinirForm.get('confirmarSenha')?.touched) {
+                <div class="p-2 bg-red-50 border-l-4 border-red-500 rounded-r-md animate-fade-in transition-colors">
+                    <div class="flex items-start gap-2">
+                        <span class="text-[11px] leading-tight text-red-700 font-medium">
+                        * As senhas não conferem.
+                        </span>
+                    </div>
+                </div>
+                }
+            </div>
+
+            @if (redefinirForm.pending || carregando) {
+            <div class="h-8 flex items-center justify-center">
+                <span class="text-xs text-gray-500 font-semibold uppercase tracking-widest">Carregando...</span>
+            </div>
+            }
+
+            <app-botao-login type="submit"
+                [attr.disabled]="(redefinirForm.invalid || carregando) ? true : null"
+                [class.opacity-50]="redefinirForm.invalid || carregando">
+                {{ carregando ? 'Redefinindo...' : 'Redefinir Senha' }}
+            </app-botao-login>
+        </form>
+    </app-login-form>
+</main>

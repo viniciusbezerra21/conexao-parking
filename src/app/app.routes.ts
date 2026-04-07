@@ -9,23 +9,29 @@ import { CadastrarVeiculo } from './pages/cadastrar-veiculo/cadastrar-veiculo';
 import { TabelaDeVeiculos } from './pages/tabela-de-veiculos/tabela-de-veiculos';
 import { TabelaUsuarios } from './pages/tabela-usuarios/tabela-usuarios';
 import { adminGuard } from './guards/admin.guard';
+import { forcaRedefinicaoSenhaGuard } from './guards/forca-redefinicao-senha-guard';
+import { RedefinirSenha } from './pages/redefinir-senha/redefinir-senha';
+
+import { authGuardGuard } from './guards/auth.guard-guard';
 
 export const routes: Routes = [
     { path: 'cadastro', component: CadastroForm, canActivate: [adminGuard] },
     { path: 'login', component: PaginaLogin },
     { path: '', component: PaginaLogin },
+    { path: 'redefinir-senha', component: RedefinirSenha, canActivate: [forcaRedefinicaoSenhaGuard] },
 
     {
         path: '',
         component: Layout,
+        canActivate: [authGuardGuard],
         children: [
             { path: 'dashboard', component: Dashboard },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
             { path: 'liberar-entrada', component: LiberarEntrada },
             { path: 'liberar-saida', component: LiberarSaida },
             { path: 'cadastro-veiculo', component: CadastrarVeiculo },
-            { path: 'tabela-de-veiculos', component: TabelaDeVeiculos  },
-            { path: 'tabela-usuarios', component: TabelaUsuarios, canActivate: [adminGuard] }
+            { path: 'tabela-de-veiculos', component: TabelaDeVeiculos },
+            { path: 'tabela-usuarios', component: TabelaUsuarios, canActivate: [adminGuard] },
         ]
     }
 ];
